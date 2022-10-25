@@ -17,30 +17,39 @@ __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 import sys  # sert à prendre les arguments en ligne de commande
 import getopt  # sert à parser les arguments en ligne de commande
 
+# On définit les variables globales :
+welcome_text = ("\n=========== Welcome on Pure-Force ! ============\n"
+                "====== A free and open password generator. =======\n"
+                "--------------------------------------------------")
+
+pain_hint = "Did you know that 'pain' means 'bread' in french ?\n"
+
+usage_text = "Usage : pureforce [OPTION]\n"
+
+options_text = ("Possible options :\n"
+                "-b (or --basic)              starts the basic mode, which generate an exhaustive list\n"
+                "                             of passwords from a given range. Use basic interactive questions\n"
+                "                             to modulate the range. It is the simplest mode but doesn't use\n"
+                "                             any optimization.\n"
+                "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
+                "                             passwords. It will use more interactive questions to select the\n"
+                "                             most relevant passwords.\n"
+                "-h (or --help)               shows the possible options (this menu).\n")
+
 
 def welcome_message():
     """Affiche un message de bienvenue.
     Affiche également des explications sur l'utilisation du script.
     """
     # On affiche le message de bienvenue :
-    print("\n=========== Welcome on Pure-Force ! ============\n"
-          "====== A free and open password generator. =======\n"
-          "--------------------------------------------------\n"
-          "Did you know that 'pain' means 'bread' in french ?")
+    print(welcome_text)
+    print(pain_hint)
 
     # On affiche la forme d'utilisation de pureforce :
-    print("Usage : pureforce [OPTION]\n")
+    print(usage_text)
 
     # On affiche les options possibles :
-    print("Possible options :\n"
-          "-b (or --basic)              starts the basic mode, which generate an exhaustive list\n"
-          "                             of passwords from a given range. Use basic interactive questions\n"
-          "                             to modulate the range. It is the simplest mode but doesn't use\n"
-          "                             any optimization.\n"
-          "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
-          "                             passwords. It will use more interactive questions to select the\n"
-          "                             most relevant passwords.\n"
-          "-h (or --help)               shows the possible options (this menu).\n")
+    print(options_text)
 
 
 def process_options():
@@ -73,11 +82,19 @@ def process_options():
     else:
         for option, value in couples:
             if option in ("-h", "--help"):
-                print("you chose the help command !")
+                help_option()
             elif option in ("-b", "--basic"):
                 print("you chose the basic command !")
             elif option in ("-i", "--intelligentia"):
                 print("you chose the intelligentia command !")
+
+
+def help_option():
+    """Affiche la page d'aide.
+    """
+    print(welcome_text)
+    print(usage_text)
+    print(options_text)
 
 
 def main():
