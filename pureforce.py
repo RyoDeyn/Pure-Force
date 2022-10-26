@@ -18,8 +18,10 @@ import sys  # sert à prendre les arguments en ligne de commande
 import getopt  # sert à parser les arguments en ligne de commande
 
 # On définit les variables globales :
+mode = "mode inconnu"
+
 welcome_text = ("\n=========== Welcome on Pure-Force ! ============\n"
-                "====== A free and open password generator. =======\n"
+                "====== A free, open and simple password generator. =======\n"
                 "--------------------------------------------------")
 
 pain_hint = "Did you know that 'pain' means 'bread' in french ?\n"
@@ -84,7 +86,7 @@ def process_options():
             if option in ("-h", "--help"):
                 help_option()
             elif option in ("-b", "--basic"):
-                print("you chose the basic command !")
+                basic_option()
             elif option in ("-i", "--intelligentia"):
                 print("you chose the intelligentia command !")
 
@@ -95,6 +97,36 @@ def help_option():
     print(welcome_text)
     print(usage_text)
     print(options_text)
+
+
+def basic_option():
+    """???
+    """
+    global mode
+    mode = "basic"
+    write_file('pforce-basic.txt')
+
+
+def write_file(file_name):
+    """Écrit dans un fichier txt un string quelconque.
+
+    Parameters
+    ----------
+    file_name : string
+        Le nom du fichier où seront écrits les mots de passe.
+
+        Si le fichier n'existe pas, le créé.
+    """
+    try:
+        with open(file_name, 'w') as file:
+            file.write("YESSSSS")
+    except PermissionError:
+        print("\nError : permission denied.\n"
+              "Could not open file : ", file_name)
+        sys.exit(f"-> Abandon du mode {mode}\n")
+    except OSError:
+        print("\nCould not open file : ", file_name)
+        sys.exit(f"-> Abandon du mode {mode}\n")
 
 
 def main():
