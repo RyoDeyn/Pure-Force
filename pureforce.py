@@ -16,6 +16,7 @@ __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 
 import sys  # sert à prendre les arguments en ligne de commande
 import getopt  # sert à parser les arguments en ligne de commande
+import array  # sert à stocker les caractères utilisés
 
 # On définit les variables globales :
 mode = "mode inconnu"
@@ -119,7 +120,7 @@ def write_file(file_name):
     """
     try:
         with open(file_name, 'w') as file:
-            file.write("YESSSSS")
+            generate_basic_passwd(file, 1, 3, array.array('u', ['a', 'b', 'c']))
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
@@ -127,6 +128,36 @@ def write_file(file_name):
     except OSError:
         print("\nCould not open file : ", file_name)
         sys.exit(f"-> Abandon du mode {mode}\n")
+
+
+def generate_basic_passwd(file, length_min, length_max, char_set):
+    """Génère et écrit des mots de passe pour le mode basic.
+
+    Parameters
+    ----------
+    file : TextIO
+        Le fichier où seront écrits les mots de passe.
+    length_min : int
+        La longueur minimale des mots de passe (inclus).
+    length_max : int
+        La longueur maximale des mots de passe (inclus).
+    char_set : array
+        L'ensemble des caractères utilisés.
+
+        Si le fichier n'existe pas, le créé.
+    """
+    # Boucle qui parcoure chaque longueur possible :
+    for length in range(length_min, length_max + 1):
+        file.write(f"mdp de longueur : {length}\n")
+        # Boucle qui parcoure chaque mdp possible pour une longueur donnée :
+        for i in range(len(char_set)**length):
+            char_indice = 0  # indice du caractère dans char_set
+            mdp = ""
+            # Boucle qui parcoure chaque caractère d'un mot de passe pour le créer :
+            for j in range(length):
+                mdp += char_set[char_indice]
+            # On écrit le mdp :
+            file.write(f"{mdp}\n")
 
 
 def main():
