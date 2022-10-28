@@ -120,7 +120,7 @@ def write_file(file_name):
     """
     try:
         with open(file_name, 'w') as file:
-            generate_basic_passwd(file, 3, 3, array.array('u', ['a', 'b', 'c', 'd']))
+            generate_basic_passwd(file, 1, 3, array.array('u', ['a', 'b', 'c', 'd']))
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
@@ -165,7 +165,7 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
         # On crée tous les mots de passe pour une longueur donnée :
         for i in range((len(char_set)**length)-1):
 
-            if (mdp[indice_to_modify] == char_set[len(char_set)-1]) and (indice_to_modify == length-1):  # if indice_cs == (len(char_set) - 1):
+            while mdp[indice_to_modify] == char_set[len(char_set)-1]:  # ancien : if indice_cs == (len(char_set) - 1):
                 indice_to_modify -= 1
 
             nouveau_mdp = ""
