@@ -120,7 +120,7 @@ def write_file(file_name):
     """
     try:
         with open(file_name, 'w') as file:
-            generate_basic_passwd(file, 1, 3, array.array('u', ['a', 'b', 'c']))
+            generate_basic_passwd(file, 3, 3, array.array('u', ['a', 'b', 'c', 'd']))
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
@@ -148,16 +148,45 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
     """
     # Boucle qui parcoure chaque longueur possible :
     for length in range(length_min, length_max + 1):
+
         file.write(f"mdp de longueur : {length}\n")
-        # Boucle qui parcoure chaque mdp possible pour une longueur donnée :
-        for i in range(len(char_set)**length):
-            char_indice = 0  # indice du caractère dans char_set
-            mdp = ""
-            # Boucle qui parcoure chaque caractère d'un mot de passe pour le créer :
-            for j in range(length):
-                mdp += char_set[char_indice]
-            # On écrit le mdp :
-            file.write(f"{mdp}\n")
+        # L'indice du caractère dans char_set :
+        indice_cs = 0
+
+        # On écrit le premier mot de passe pour cette longueur :
+        mdp = ""
+        for j in range(length):
+            mdp += char_set[indice_cs]
+        file.write(f"{mdp}\n")
+
+        # Indice du caractère à modifier :
+        indice_to_modify = length - 1
+
+        # On crée tous les mots de passe pour une longueur donnée :
+        for i in range((len(char_set)**length)-1):
+
+            if (mdp[indice_to_modify] == char_set[len(char_set)-1]) and (indice_to_modify == length-1):  # if indice_cs == (len(char_set) - 1):
+                indice_to_modify -= 1
+
+            nouveau_mdp = ""
+
+            # On recopie le mdp précédent dans le nouveau mdp sauf pour 1 caractère qu'on modifie :
+            for indice_courant in range(length):
+                if indice_courant == indice_to_modify:
+                    indice_cs = char_set.index(mdp[indice_to_modify]) + 1
+                    nouveau_mdp += char_set[indice_cs]
+                    # Si le mot de passe n'est pas terminé, on met tous les caractères suivants à cs[0] :
+                    if indice_courant < (length-1):
+                        for indice_restant in range(indice_courant+1, length):
+                            nouveau_mdp += char_set[0]
+                            indice_to_modify = length - 1
+                        break
+                else:
+                    nouveau_mdp += mdp[indice_courant]
+
+            mdp = nouveau_mdp
+            # On écrit le nouveau mdp :
+            file.write(f"{nouveau_mdp}\n")
 
 
 def main():
