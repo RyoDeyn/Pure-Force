@@ -39,6 +39,16 @@ options_text = ("Possible options :\n"
                 "                             most relevant passwords.\n"
                 "-h (or --help)               shows the possible options (this menu).\n")
 
+# Exemples de set de char possibles :
+minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+                                   'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
+
+majuscules_set = array.array('u', [letter.upper() for letter in minuscules_set])
+
+digit_set = array.array('u', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
+special_char_set = array.array('u', ['&', '#', '@', '$', '*', '%', '/', '?', '!', '<', '>'])
+
 
 def welcome_message():
     """Affiche un message de bienvenue.
@@ -58,9 +68,9 @@ def welcome_message():
 def process_options():
     """Gère les options et les paramètres du script."""
     # couples : liste de couples [options, valeur] ; exemple : (-l, 4);(-p, "er")
-    # # finArgs : les arguments supplémentaires s'il y en a
-    # # Ici nos options ne prennent pas d'arguments donc on ne s'occupe pas de 'valeur'.
-    # # On ne s'occupera pas non plus de argsAfter.
+    # finArgs : les arguments supplémentaires s'il y en a
+    # Ici nos options ne prennent pas d'arguments donc on ne s'occupe pas de 'valeur'.
+    # On ne s'occupera pas non plus de argsAfter.
     try:
         couples, args_after = getopt.getopt(sys.argv[1:], "bih", ["basic", "intelligentia", "help"])
     except getopt.GetoptError as error:
@@ -101,7 +111,7 @@ def help_option():
 
 
 def basic_option():
-    """???
+    """Lance le mode basic.
     """
     global mode
     mode = "basic"
@@ -109,18 +119,18 @@ def basic_option():
 
 
 def write_file(file_name):
-    """Écrit dans un fichier txt un string quelconque.
+    """Écrit dans un fichier txt une liste de mots de passe.
 
     Parameters
     ----------
     file_name : string
         Le nom du fichier où seront écrits les mots de passe.
 
-        Si le fichier n'existe pas, le créé.
+        Si le fichier n'existe pas, le crée.
     """
     try:
         with open(file_name, 'w') as file:
-            generate_basic_passwd(file, 1, 3, array.array('u', ['a', 'b', 'c', 'd']))
+            generate_basic_passwd(file, 2, 2, array.array('u', digit_set + minuscules_set))
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
@@ -143,13 +153,11 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
         La longueur maximale des mots de passe (inclus).
     char_set : array
         L'ensemble des caractères utilisés.
-
-        Si le fichier n'existe pas, le créé.
     """
     # Boucle qui parcoure chaque longueur possible :
     for length in range(length_min, length_max + 1):
 
-        file.write(f"mdp de longueur : {length}\n")
+        # file.write(f"mdp de longueur : {length}\n")
         # L'indice du caractère dans char_set :
         indice_cs = 0
 
