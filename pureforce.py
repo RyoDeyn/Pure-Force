@@ -39,6 +39,13 @@ options_text = ("Possible options :\n"
                 "                             most relevant passwords.\n"
                 "-h (or --help)               shows the possible options (this menu).\n")
 
+project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
+/\  == \ /\ \/\ \   /\  == \   /\  ___\      /\  ___\ /\  __ \   /\  == \   /\  ___\   /\  ___\   
+\ \  _-/ \ \ \_\ \  \ \  __<   \ \  __\      \ \  __\ \ \ \/\ \  \ \  __<   \ \ \____  \ \  __\   
+ \ \_\    \ \_____\  \ \_\ \_\  \ \_____\     \ \_\    \ \_____\  \ \_\ \_\  \ \_____\  \ \_____\ 
+  \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
+                                                                                                  """
+
 # Exemples de set de char possibles :
 minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
                                    'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
@@ -115,7 +122,18 @@ def basic_option():
     """
     global mode
     mode = "basic"
+    basic_message()
     write_file('pforce-basic.txt')
+
+
+def basic_message():
+    """Affiche un message de bienvenue lorsque l'on rentre dans le mode basic.
+
+    Un truc sympa et stylé.
+    """
+    print("--------------------------------------------------")
+    print(project_title)
+    print("Entering basic mode ...")
 
 
 def write_file(file_name):
@@ -130,7 +148,7 @@ def write_file(file_name):
     """
     try:
         with open(file_name, 'w') as file:
-            generate_basic_passwd(file, 2, 2, array.array('u', digit_set + minuscules_set))
+            generate_basic_passwd(file, 1, 1, array.array('u',minuscules_set))
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
