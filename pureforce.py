@@ -144,8 +144,8 @@ def basic_option():
     """
     global mode
     mode = "basic"
-    basic_message()
-    write_file('pforce-basic.txt')
+    file_name, length_min, length_max, char_used = basic_message()
+    write_file(file_name, length_min, length_max, char_used)
 
 
 def basic_message():
@@ -175,7 +175,35 @@ def basic_message():
     length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
     length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
 
-    return file_name, length_min, length_max
+    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, ...) ? (Y/N)"
+                                f"{TColor.red}(*){TColor.end}: ")
+    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, ...) ? (Y/N)"
+                                f"{TColor.red}(*){TColor.end}: ")
+    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, ...) ? (Y/N)"
+                                f"{TColor.red}(*){TColor.end}: ")
+    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, ...) ? (Y/N)"
+                                f"{TColor.red}(*){TColor.end}: ")
+
+    # Si aucun char selectionné, on arrete l'execution du script :
+    stop_exec = True
+    for resp in [min_set_used, maj_set_used, dig_set_used, spe_set_used]:
+        if resp == 'Y':
+            stop_exec = False
+    if stop_exec:
+        sys.exit(f"\n{TColor.orange}You did not select any char set, exiting ...{TColor.end}\n")
+
+    char_used = array.array('u')
+
+    if min_set_used == 'Y':
+        char_used += minuscules_set
+    if maj_set_used == 'Y':
+        char_used += majuscules_set
+    if dig_set_used == 'Y':
+        char_used += digit_set
+    if spe_set_used == 'Y':
+        char_used += special_char_set
+
+    return file_name, length_min, length_max, char_used
 
 
 def int_input(question):
@@ -211,19 +239,47 @@ def int_input(question):
     return v_int
 
 
-def write_file(file_name):
+def yes_no_input(question):
+    """Demande à l'utilisateur d'entrer 'Y' or 'N', puis effectue une vérification sur la valeur entrée.
+
+    Parameters
+    ----------
+    question : string
+        La question à afficher à l'utilisateur.
+
+    Returns
+    -------
+    string
+        La réponse entrée par l'utilisateur.
+    """
+    rep = input(question)
+    while rep not in ['Y', 'N']:
+        print(f"{TColor.red}\nErreur : vous devez entrer 'Y' or 'N'.{TColor.end}")
+        # On re-demande l'entrée à l'utilisateur :
+        rep = input(f"Voulez-vous utiliser les minuscules ? (Y/N) {TColor.red}(*){TColor.end}: ")
+
+    return rep
+
+
+def write_file(file_name, length_min, length_max, char_used):
     """Écrit dans un fichier txt une liste de mots de passe.
 
     Parameters
     ----------
     file_name : string
         Le nom du fichier où seront écrits les mots de passe.
+    length_min : int
+        La longueur minimale des mots de passe (inclus).
+    length_max : int
+        La longueur maximale des mots de passe (inclus).
+    char_used : array
+        Array contenant l'ensemble des char utilisés.
 
         Si le fichier n'existe pas, le crée.
     """
     try:
         with open(file_name, 'w') as file:
-            generate_basic_passwd(file, 1, 1, array.array('u',minuscules_set))
+            generate_basic_passwd(file, length_min, length_max, char_used)
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
