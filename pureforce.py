@@ -57,6 +57,28 @@ digit_set = array.array('u', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 special_char_set = array.array('u', ['&', '#', '@', '$', '*', '%', '/', '?', '!', '<', '>'])
 
 
+class TColor:
+    """
+    Stocke les différentes couleurs possibles si on veut afficher du texte dans le terminal en couleur.
+    """
+    black = '\033[30m'
+    red = '\033[31m'
+    green = '\033[32m'
+    orange = '\033[33m'
+    blue = '\033[34m'
+    purple = '\033[35m'
+    cyan = '\033[36m'
+    light_grey = '\033[37m'
+    darkgrey = '\033[90m'
+    light_red = '\033[91m'
+    light_green = '\033[92m'
+    yellow = '\033[93m'
+    lightblue = '\033[94m'
+    pink = '\033[95m'
+    light_cyan = '\033[96m'
+    end = '\033[0m'
+
+
 def welcome_message():
     """Affiche un message de bienvenue.
     Affiche également des explications sur l'utilisation du script.
@@ -128,12 +150,65 @@ def basic_option():
 
 def basic_message():
     """Affiche un message de bienvenue lorsque l'on rentre dans le mode basic.
-
     Un truc sympa et stylé.
+
+    Returns
+    -------
+    file_name : string
+        Name of the file to store the passwords.
+    length_min : int
+        Longueur minimale des mots de passe (inclus).
+    length_max : int
+        Longueur maximale des mots de passe (inclus).
     """
     print("--------------------------------------------------")
     print(project_title)
-    print("Entering basic mode ...")
+    print(f"{TColor.green}Entering basic mode ...{TColor.end}\n"
+          "\nLa liste des mots de passe sera écrite dans un fichier txt (nom par défaut : 'pforce-basic.txt')."
+          f"\nLes questions obligatoires sont marquées avec un {TColor.red}(*){TColor.end}.\n")
+
+    # On demande à l'utilisateur des informations sur la génération des mdp :
+    file_name = input("Nom du fichier (format = name.txt): ")
+    if file_name == "":
+        file_name = "pforce-basic.txt"
+
+    length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
+    length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
+
+    return file_name, length_min, length_max
+
+
+def int_input(question):
+    """Demande à l'utilisateur d'entrer un entier, puis effectue une vérification sur la valeur entrée.
+
+    Parameters
+    ----------
+    question : string
+        La question à afficher à l'utilisateur.
+
+    Returns
+    -------
+    int
+        L'entier entré par l'utilisateur.
+    """
+    v_string = input(question)
+    v_int = 0
+
+    # On vérifie que l'utilisateur a bien entré un entier :
+    try:
+        v_int = int(v_string)
+        # On vérifie que l'entier est supérieur à 1 :
+        if v_int < 1:
+            print(f"{TColor.red}\nErreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
+            # On re-demande l'entrée à l'utilisateur :
+            int_input(question)
+    except ValueError as error:
+        # On affiche un message d'erreur :
+        print(f"{TColor.red}\nErreur : vous devez entrer un entier.{TColor.end}")
+        # On re-demande l'entrée à l'utilisateur :
+        int_input(question)
+
+    return v_int
 
 
 def write_file(file_name):
