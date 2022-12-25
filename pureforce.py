@@ -175,13 +175,13 @@ def basic_message():
     length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
     length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
 
-    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, ...) ? (Y/N)"
+    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, ...) ? (Y/N)"
+    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, ...) ? (Y/N)"
+    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, ...) ? (Y/N)"
+    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
 
     # Si aucun char selectionné, on arrete l'execution du script :
@@ -227,12 +227,12 @@ def int_input(question):
         v_int = int(v_string)
         # On vérifie que l'entier est supérieur à 1 :
         if v_int < 1:
-            print(f"{TColor.red}\nErreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
+            print(f"{TColor.red}Erreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
             # On re-demande l'entrée à l'utilisateur :
             int_input(question)
     except ValueError as error:
         # On affiche un message d'erreur :
-        print(f"{TColor.red}\nErreur : vous devez entrer un entier.{TColor.end}")
+        print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
         # On re-demande l'entrée à l'utilisateur :
         int_input(question)
 
@@ -254,9 +254,9 @@ def yes_no_input(question):
     """
     rep = input(question)
     while rep not in ['Y', 'N']:
-        print(f"{TColor.red}\nErreur : vous devez entrer 'Y' or 'N'.{TColor.end}")
+        print(f"{TColor.red}Erreur : vous devez entrer 'Y' or 'N'.{TColor.end}")
         # On re-demande l'entrée à l'utilisateur :
-        rep = input(f"Voulez-vous utiliser les minuscules ? (Y/N) {TColor.red}(*){TColor.end}: ")
+        rep = input(question)
 
     return rep
 
