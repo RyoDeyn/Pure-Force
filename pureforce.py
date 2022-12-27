@@ -17,6 +17,7 @@ __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 import sys  # sert à prendre les arguments en ligne de commande
 import getopt  # sert à parser les arguments en ligne de commande
 import array  # sert à stocker les caractères utilisés
+import os # sert à vérifier si un fichier existe déjà
 
 # On définit les variables globales :
 mode = "mode inconnu"
@@ -144,8 +145,8 @@ def basic_option():
     """
     global mode
     mode = "basic"
-    file_name, length_min, length_max, char_used = basic_message()
-    write_file(file_name, length_min, length_max, char_used)
+    file_name, length_min, length_max, char_used, writing_mode = basic_message()
+    write_file(file_name, length_min, length_max, char_used, writing_mode)
 
 
 def basic_message():
@@ -160,6 +161,10 @@ def basic_message():
         Longueur minimale des mots de passe (inclus).
     length_max : int
         Longueur maximale des mots de passe (inclus).
+    char_used : array
+        Contient l'ensemble des char utilisés.
+    writing_mode : string
+        Le mode d'écriture sur le fichier (write or append).
     """
     print("--------------------------------------------------")
     print(project_title)
@@ -167,21 +172,44 @@ def basic_message():
           "\nLa liste des mots de passe sera écrite dans un fichier txt (nom par défaut : 'pforce-basic.txt')."
           f"\nLes questions obligatoires sont marquées avec un {TColor.red}(*){TColor.end}.\n")
 
-    # On demande à l'utilisateur des informations sur la génération des mdp :
-    file_name = input("Nom du fichier (format = name.txt): ")
-    if file_name == "":
-        file_name = "pforce-basic.txt"
+    file_name = ask_file_name("Nom du fichier txt: ")
+    writing_mode = 'w'
+
+    # Si le fichier existe déjà :
+    if os.path.isfile(f"{os.path.abspath(os.getcwd())}\\{file_name}"):
+        print(f"{TColor.yellow}Warning : the file {file_name} already exists. Choose the option you want :"
+              f"\n- create a new file (by changing the name) (1)"
+              f"\n- override the existing file (2)"
+              f"\n- append the generated passwords to the existing file (3){TColor.end}")
+        file_option = input("--> ")
+        while file_option not in ['1', '2', '3']:
+            print(f"{TColor.red}Erreur : Options disponibles : 1, 2 or 3.{TColor.end}")
+            file_option = input("--> ")
+
+        # Traitement selon l'option choisie :
+        if file_option == '1':
+            file_name = ask_file_name("Choose a new file name: ")
+        elif file_option == '2':
+            writing_mode = 'w'
+        elif file_option == '3':
+            writing_mode = 'a'
+        else:
+            sys.exit("Erreur : option inconnue.\nExiting ...")
 
     length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
     length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
 
-    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, ...) ? (Y/N) "
+    while length_max < length_min:
+        print(f"{TColor.red}Erreur : la longueur maximale ne peut être inférieure à la longueur minimale.{TColor.end}")
+        length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
+
+    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, c, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, ...) ? (Y/N) "
+    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, C, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, ...) ? (Y/N) "
+    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, 2, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, ...) ? (Y/N) "
+    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, @, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
 
     # Si aucun char selectionné, on arrete l'execution du script :
@@ -203,7 +231,32 @@ def basic_message():
     if spe_set_used == 'Y':
         char_used += special_char_set
 
-    return file_name, length_min, length_max, char_used
+    return file_name, length_min, length_max, char_used, writing_mode
+
+
+def ask_file_name(question):
+    """Demande à l'utilisateur d'entrer un nom de fichier, puis effectue une vérification sur la valeur entrée.
+
+    Parameters
+    ----------
+    question : string
+        La question à afficher à l'utilisateur.
+
+    Returns
+    -------
+    string
+        Le nom de fichier entré par l'utilisateur.
+    """
+    file_name = input(question)
+    if file_name == "":
+        file_name = "pforce-basic.txt"
+    elif ".txt" not in file_name:
+        file_name += ".txt"
+    while len(file_name) > 200:
+        print(f"{TColor.red}Erreur : le nom du fichier ne doit pas dépasser 200 caractères.{TColor.end}")
+        file_name = input(question)
+
+    return file_name
 
 
 def int_input(question):
@@ -261,7 +314,7 @@ def yes_no_input(question):
     return rep
 
 
-def write_file(file_name, length_min, length_max, char_used):
+def write_file(file_name, length_min, length_max, char_used, writing_mode):
     """Écrit dans un fichier txt une liste de mots de passe.
 
     Parameters
@@ -273,12 +326,14 @@ def write_file(file_name, length_min, length_max, char_used):
     length_max : int
         La longueur maximale des mots de passe (inclus).
     char_used : array
-        Array contenant l'ensemble des char utilisés.
+        Contient l'ensemble des char utilisés.
+    writing_mode : string
+        Le mode d'écriture sur le fichier (write or append).
 
         Si le fichier n'existe pas, le crée.
     """
     try:
-        with open(file_name, 'w') as file:
+        with open(file_name, writing_mode) as file:
             generate_basic_passwd(file, length_min, length_max, char_used)
     except PermissionError:
         print("\nError : permission denied.\n"
