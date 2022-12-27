@@ -146,7 +146,69 @@ def basic_option():
     global mode
     mode = "basic"
     file_name, length_min, length_max, char_used, writing_mode = basic_message()
+
+    # On vérifie que le nombre de mdp à générer n'est pas trop élevé :
+    pwd_number_ok, pwd_nb = check_pwd_number(length_min, length_max, len(char_used))
+    pwd_approximation = approximation(pwd_nb)
+
+    if not pwd_number_ok:
+        print(f"{TColor.yellow}Warning : le nombre de mots de passe à générer est > {pwd_approximation}.\n"
+              f"Le temps de génération ainsi que la taille du fichier risquent d'être très élevés.{TColor.end}\n"
+              f"(Etant donné que ces deux paramètres dépendent de la puissance de la machine, il n'est peut-être pas"
+              f"nécessaire de tenir compte de cet avertissement.)")
     write_file(file_name, length_min, length_max, char_used, writing_mode)
+
+
+def approximation(nb):
+    """
+    Parameters
+    ----------
+    nb : int
+        The number to approximate.
+
+    Returns
+    -------
+    int
+        The approximation.
+    """
+
+    # On définit les 8 premiers chiffres à 0 :
+    for i in range(8):
+        trucs
+
+    return nb
+
+
+def check_pwd_number(l_min, l_max, nb_char):
+    """
+    Parameters
+    ----------
+    l_min : int
+        La longueur minimale des mots de passe à générer.
+    l_max : int
+        La longueur maximale des mots de passe à générer.
+    nb_char : int
+        Le nombre de caractères possibles.
+
+    Returns
+    -------
+    pwd_number_ok : boolean
+        If the number of passwords to generate is not too high.
+    pwd_nb : int
+        An approximation of the number of passwords to generate (valeur inférieure au nombre réelle).
+    """
+
+    pwd_nb = 0
+    # On calcule le nombre de mots de passe à générer :
+    for i in range(l_min, l_max+1):
+        pwd_nb += nb_char ** i
+
+    pwd_number_ok = True
+
+    if pwd_nb > 1_000_000_000:
+        pwd_number_ok = False
+
+    return pwd_number_ok, pwd_nb
 
 
 def basic_message():
