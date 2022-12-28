@@ -6,7 +6,7 @@ Usage:
 
     OPTIONS:
     -b (or --basic): starts the basic mode.
-    -i (or --intelligentia): starts the intelligent mode.
+    -i (or --intelligentia): starts the intelligent mode. (COMING SOON)
     -h (or --help): shows the possible options.
 """
 
@@ -17,6 +17,30 @@ __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 import sys  # sert à prendre les arguments en ligne de commande
 import getopt  # sert à parser les arguments en ligne de commande
 import array  # sert à stocker les caractères utilisés
+import os  # sert à vérifier si un fichier existe déjà
+
+
+class TColor:
+    """
+    Stocke les différentes couleurs possibles si on veut afficher du texte dans le terminal en couleur.
+    """
+    black = '\033[30m'
+    red = '\033[31m'
+    green = '\033[32m'
+    orange = '\033[33m'
+    blue = '\033[34m'
+    purple = '\033[35m'
+    cyan = '\033[36m'
+    light_grey = '\033[37m'
+    darkgrey = '\033[90m'
+    light_red = '\033[91m'
+    light_green = '\033[92m'
+    yellow = '\033[93m'
+    lightblue = '\033[94m'
+    pink = '\033[95m'
+    light_cyan = '\033[96m'
+    end = '\033[0m'
+
 
 # On définit les variables globales :
 mode = "mode inconnu"
@@ -36,8 +60,15 @@ options_text = ("Possible options :\n"
                 "                             any optimization.\n"
                 "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
                 "                             passwords. It will use more interactive questions to select the\n"
-                "                             most relevant passwords.\n"
+                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n"
                 "-h (or --help)               shows the possible options (this menu).\n")
+
+project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
+/\  == \ /\ \/\ \   /\  == \   /\  ___\      /\  ___\ /\  __ \   /\  == \   /\  ___\   /\  ___\   
+\ \  _-/ \ \ \_\ \  \ \  __<   \ \  __\      \ \  __\ \ \ \/\ \  \ \  __<   \ \ \____  \ \  __\   
+ \ \_\    \ \_____\  \ \_\ \_\  \ \_____\     \ \_\    \ \_____\  \ \_\ \_\  \ \_____\  \ \_____\ 
+  \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
+                                                                                                  """
 
 # Exemples de set de char possibles :
 minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
@@ -99,7 +130,8 @@ def process_options():
             elif option in ("-b", "--basic"):
                 basic_option()
             elif option in ("-i", "--intelligentia"):
-                print("you chose the intelligentia command !")
+                print(f"{TColor.pink}The pain is cooking ...\n"
+                      f"(The intelligent mode is not available yet.){TColor.end}")
 
 
 def help_option():
@@ -115,22 +147,300 @@ def basic_option():
     """
     global mode
     mode = "basic"
-    write_file('pforce-basic.txt')
+    file_name, length_min, length_max, char_used, writing_mode = basic_message()
+
+    # On vérifie que le nombre de mdp à générer n'est pas trop élevé :
+    pwd_number_ok, pwd_nb = check_pwd_number(length_min, length_max, len(char_used))
+
+    if not pwd_number_ok:
+        pwd_approximation = approximation(pwd_nb)
+        print(f"\n{TColor.yellow}Warning : le nombre de mots de passe à générer est > "
+              f"{format(pwd_approximation, '_d')}."
+              f"\nLe temps de génération ainsi que la taille du fichier risquent d'être très élevés.\n"
+              f"(Etant donné que ces deux paramètres dépendent de la puissance de la machine ainsi "
+              f"que du stockage disponible, il n'est peut-être pas nécessaire de tenir compte de cet "
+              f"avertissement.){TColor.end}\n")
+
+        # On offre à l'utilisateur le choix de lancer ou d'avorter la génération :
+        do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+        while do_we_exec not in ['Y', 'N']:
+            print(f"{TColor.red}Erreur : Options disponibles : Y or N{TColor.end}")
+            do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+
+        if do_we_exec == 'N':
+            sys.exit("\nAnnulation du lancement de la génération.\nExiting ...\n")
+
+    print("\nGénération des mots de passe en cours ...\n"
+          f"\nRécapitulatif :\n"
+          f"fichier de sortie -> {file_name}\n"
+          f"length min -> {length_min}\n"
+          f"length max -> {length_max}\n"
+          f"char used -> {print_set_char(char_used)}\n")
+    write_file(file_name, length_min, length_max, char_used, writing_mode)
+
+    print(f"{TColor.green}La génération des mots de passe est terminée.{TColor.end}\n")
 
 
-def write_file(file_name):
+def print_set_char(char_set):
+    """
+    Parameters
+    ----------
+    char_set : array
+        An array containing all the characters to use.
+
+    Returns
+    -------
+    string
+        Un affichage propre des caracteres de cet array.
+    """
+
+    clean_affichage = "["
+    for char in char_set:
+        clean_affichage += char + " ; "
+
+    clean_affichage = clean_affichage[:-3] + "]"
+
+    return clean_affichage
+
+
+def approximation(nb):
+    """
+    Parameters
+    ----------
+    nb : int
+        The number to approximate.
+
+    Returns
+    -------
+    int
+        The approximation.
+    """
+
+    # On définit les 8 premiers chiffres à 0 :
+    nb = int(nb / 10 ** 8)
+    nb = nb * (10 ** 8)
+
+    return nb
+
+
+def check_pwd_number(l_min, l_max, nb_char):
+    """
+    Parameters
+    ----------
+    l_min : int
+        La longueur minimale des mots de passe à générer.
+    l_max : int
+        La longueur maximale des mots de passe à générer.
+    nb_char : int
+        Le nombre de caractères possibles.
+
+    Returns
+    -------
+    pwd_number_ok : boolean
+        If the number of passwords to generate is not too high.
+    pwd_nb : int
+        An approximation of the number of passwords to generate (valeur inférieure au nombre réelle).
+    """
+
+    pwd_nb = 0
+    # On calcule le nombre de mots de passe à générer :
+    for i in range(l_min, l_max + 1):
+        pwd_nb += nb_char ** i
+
+    pwd_number_ok = True
+
+    if pwd_nb > 1_000_000_000:
+        pwd_number_ok = False
+
+    return pwd_number_ok, pwd_nb
+
+
+def basic_message():
+    """Affiche un message de bienvenue lorsque l'on rentre dans le mode basic.
+    Un truc sympa et stylé.
+
+    Returns
+    -------
+    file_name : string
+        Name of the file to store the passwords.
+    length_min : int
+        Longueur minimale des mots de passe (inclus).
+    length_max : int
+        Longueur maximale des mots de passe (inclus).
+    char_used : array
+        Contient l'ensemble des char utilisés.
+    writing_mode : string
+        Le mode d'écriture sur le fichier (write or append).
+    """
+    print("--------------------------------------------------")
+    print(project_title)
+    print(f"{TColor.green}Entering basic mode ...{TColor.end}\n"
+          "\nLa liste des mots de passe sera écrite dans un fichier txt (nom par défaut : 'pforce-basic.txt')."
+          f"\nLes questions obligatoires sont marquées avec un {TColor.red}(*){TColor.end}.\n")
+
+    file_name = ask_file_name("Nom du fichier txt: ")
+    writing_mode = 'w'
+
+    # Si le fichier existe déjà :
+    if os.path.isfile(f"{os.path.abspath(os.getcwd())}\\{file_name}"):
+        print(f"{TColor.yellow}Warning : the file {file_name} already exists. Choose the option you want :"
+              f"\n- create a new file (by changing the name) (1)"
+              f"\n- override the existing file (2)"
+              f"\n- append the generated passwords to the existing file (3){TColor.end}")
+        file_option = input("--> ")
+        while file_option not in ['1', '2', '3']:
+            print(f"{TColor.red}Erreur : Options disponibles : 1, 2 or 3.{TColor.end}")
+            file_option = input("--> ")
+
+        # Traitement selon l'option choisie :
+        if file_option == '1':
+            file_name = ask_file_name("Choose a new file name: ")
+        elif file_option == '2':
+            writing_mode = 'w'
+        elif file_option == '3':
+            writing_mode = 'a'
+        else:
+            sys.exit("Erreur : option inconnue.\nExiting ...")
+
+    length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
+    length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
+
+    while length_max < length_min:
+        print(f"{TColor.red}Erreur : la longueur maximale ne peut être inférieure à la longueur minimale.{TColor.end}")
+        length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
+
+    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, c, ...) ? (Y/N) "
+                                f"{TColor.red}(*){TColor.end}: ")
+    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, C, ...) ? (Y/N) "
+                                f"{TColor.red}(*){TColor.end}: ")
+    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, 2, ...) ? (Y/N) "
+                                f"{TColor.red}(*){TColor.end}: ")
+    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, @, ...) ? (Y/N) "
+                                f"{TColor.red}(*){TColor.end}: ")
+
+    # Si aucun char selectionné, on arrete l'execution du script :
+    stop_exec = True
+    for resp in [min_set_used, maj_set_used, dig_set_used, spe_set_used]:
+        if resp == 'Y':
+            stop_exec = False
+    if stop_exec:
+        sys.exit(f"\n{TColor.orange}You did not select any char set, exiting ...{TColor.end}\n")
+
+    char_used = array.array('u')
+
+    if min_set_used == 'Y':
+        char_used += minuscules_set
+    if maj_set_used == 'Y':
+        char_used += majuscules_set
+    if dig_set_used == 'Y':
+        char_used += digit_set
+    if spe_set_used == 'Y':
+        char_used += special_char_set
+
+    return file_name, length_min, length_max, char_used, writing_mode
+
+
+def ask_file_name(question):
+    """Demande à l'utilisateur d'entrer un nom de fichier, puis effectue une vérification sur la valeur entrée.
+
+    Parameters
+    ----------
+    question : string
+        La question à afficher à l'utilisateur.
+
+    Returns
+    -------
+    string
+        Le nom de fichier entré par l'utilisateur.
+    """
+    file_name = input(question)
+    if file_name == "":
+        file_name = "pforce-basic.txt"
+    elif ".txt" not in file_name:
+        file_name += ".txt"
+    while len(file_name) > 200:
+        print(f"{TColor.red}Erreur : le nom du fichier ne doit pas dépasser 200 caractères.{TColor.end}")
+        file_name = input(question)
+
+    return file_name
+
+
+def int_input(question):
+    """Demande à l'utilisateur d'entrer un entier, puis effectue une vérification sur la valeur entrée.
+
+    Parameters
+    ----------
+    question : string
+        La question à afficher à l'utilisateur.
+
+    Returns
+    -------
+    int
+        L'entier entré par l'utilisateur.
+    """
+    v_string = input(question)
+    v_int = 0
+
+    # On vérifie que l'utilisateur a bien entré un entier :
+    try:
+        v_int = int(v_string)
+        # On vérifie que l'entier est supérieur à 1 :
+        if v_int < 1:
+            print(f"{TColor.red}Erreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
+            # On re-demande l'entrée à l'utilisateur :
+            int_input(question)
+    except ValueError as error:
+        # On affiche un message d'erreur :
+        print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
+        # On re-demande l'entrée à l'utilisateur :
+        int_input(question)
+
+    return v_int
+
+
+def yes_no_input(question):
+    """Demande à l'utilisateur d'entrer 'Y' or 'N', puis effectue une vérification sur la valeur entrée.
+
+    Parameters
+    ----------
+    question : string
+        La question à afficher à l'utilisateur.
+
+    Returns
+    -------
+    string
+        La réponse entrée par l'utilisateur.
+    """
+    rep = input(question)
+    while rep not in ['Y', 'N']:
+        print(f"{TColor.red}Erreur : vous devez entrer 'Y' or 'N'.{TColor.end}")
+        # On re-demande l'entrée à l'utilisateur :
+        rep = input(question)
+
+    return rep
+
+
+def write_file(file_name, length_min, length_max, char_used, writing_mode):
     """Écrit dans un fichier txt une liste de mots de passe.
 
     Parameters
     ----------
     file_name : string
         Le nom du fichier où seront écrits les mots de passe.
+    length_min : int
+        La longueur minimale des mots de passe (inclus).
+    length_max : int
+        La longueur maximale des mots de passe (inclus).
+    char_used : array
+        Contient l'ensemble des char utilisés.
+    writing_mode : string
+        Le mode d'écriture sur le fichier (write or append).
 
         Si le fichier n'existe pas, le crée.
     """
     try:
-        with open(file_name, 'w') as file:
-            generate_basic_passwd(file, 2, 2, array.array('u', digit_set + minuscules_set))
+        with open(file_name, writing_mode) as file:
+            generate_basic_passwd(file, length_min, length_max, char_used)
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
@@ -171,9 +481,9 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
         indice_to_modify = length - 1
 
         # On crée tous les mots de passe pour une longueur donnée :
-        for i in range((len(char_set)**length)-1):
+        for i in range((len(char_set) ** length) - 1):
 
-            while mdp[indice_to_modify] == char_set[len(char_set)-1]:  # ancien : if indice_cs == (len(char_set) - 1):
+            while mdp[indice_to_modify] == char_set[len(char_set) - 1]:  # ancien : if indice_cs == (len(char_set) - 1):
                 indice_to_modify -= 1
 
             nouveau_mdp = ""
@@ -184,8 +494,8 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
                     indice_cs = char_set.index(mdp[indice_to_modify]) + 1
                     nouveau_mdp += char_set[indice_cs]
                     # Si le mot de passe n'est pas terminé, on met tous les caractères suivants à cs[0] :
-                    if indice_courant < (length-1):
-                        for indice_restant in range(indice_courant+1, length):
+                    if indice_courant < (length - 1):
+                        for indice_restant in range(indice_courant + 1, length):
                             nouveau_mdp += char_set[0]
                             indice_to_modify = length - 1
                         break
