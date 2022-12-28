@@ -6,7 +6,7 @@ Usage:
 
     OPTIONS:
     -b (or --basic): starts the basic mode.
-    -i (or --intelligentia): starts the intelligent mode.
+    -i (or --intelligentia): starts the intelligent mode. (COMING SOON)
     -h (or --help): shows the possible options.
 """
 
@@ -17,45 +17,7 @@ __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 import sys  # sert à prendre les arguments en ligne de commande
 import getopt  # sert à parser les arguments en ligne de commande
 import array  # sert à stocker les caractères utilisés
-import os # sert à vérifier si un fichier existe déjà
-
-# On définit les variables globales :
-mode = "mode inconnu"
-
-welcome_text = ("\n=========== Welcome on Pure-Force ! ============\n"
-                "====== A free, open and simple password generator. =======\n"
-                "--------------------------------------------------")
-
-pain_hint = "Did you know that 'pain' means 'bread' in french ?\n"
-
-usage_text = "Usage : pureforce [OPTION]\n"
-
-options_text = ("Possible options :\n"
-                "-b (or --basic)              starts the basic mode, which generate an exhaustive list\n"
-                "                             of passwords from a given range. Use basic interactive questions\n"
-                "                             to modulate the range. It is the simplest mode but doesn't use\n"
-                "                             any optimization.\n"
-                "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
-                "                             passwords. It will use more interactive questions to select the\n"
-                "                             most relevant passwords.\n"
-                "-h (or --help)               shows the possible options (this menu).\n")
-
-project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
-/\  == \ /\ \/\ \   /\  == \   /\  ___\      /\  ___\ /\  __ \   /\  == \   /\  ___\   /\  ___\   
-\ \  _-/ \ \ \_\ \  \ \  __<   \ \  __\      \ \  __\ \ \ \/\ \  \ \  __<   \ \ \____  \ \  __\   
- \ \_\    \ \_____\  \ \_\ \_\  \ \_____\     \ \_\    \ \_____\  \ \_\ \_\  \ \_____\  \ \_____\ 
-  \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
-                                                                                                  """
-
-# Exemples de set de char possibles :
-minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
-                                   'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
-
-majuscules_set = array.array('u', [letter.upper() for letter in minuscules_set])
-
-digit_set = array.array('u', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
-
-special_char_set = array.array('u', ['&', '#', '@', '$', '*', '%', '/', '?', '!', '<', '>'])
+import os  # sert à vérifier si un fichier existe déjà
 
 
 class TColor:
@@ -78,6 +40,45 @@ class TColor:
     pink = '\033[95m'
     light_cyan = '\033[96m'
     end = '\033[0m'
+
+
+# On définit les variables globales :
+mode = "mode inconnu"
+
+welcome_text = ("\n=========== Welcome on Pure-Force ! ============\n"
+                "====== A free, open and simple password generator. =======\n"
+                "--------------------------------------------------")
+
+pain_hint = "Did you know that 'pain' means 'bread' in french ?\n"
+
+usage_text = "Usage : pureforce [OPTION]\n"
+
+options_text = ("Possible options :\n"
+                "-b (or --basic)              starts the basic mode, which generate an exhaustive list\n"
+                "                             of passwords from a given range. Use basic interactive questions\n"
+                "                             to modulate the range. It is the simplest mode but doesn't use\n"
+                "                             any optimization.\n"
+                "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
+                "                             passwords. It will use more interactive questions to select the\n"
+                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n"
+                "-h (or --help)               shows the possible options (this menu).\n")
+
+project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
+/\  == \ /\ \/\ \   /\  == \   /\  ___\      /\  ___\ /\  __ \   /\  == \   /\  ___\   /\  ___\   
+\ \  _-/ \ \ \_\ \  \ \  __<   \ \  __\      \ \  __\ \ \ \/\ \  \ \  __<   \ \ \____  \ \  __\   
+ \ \_\    \ \_____\  \ \_\ \_\  \ \_____\     \ \_\    \ \_____\  \ \_\ \_\  \ \_____\  \ \_____\ 
+  \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
+                                                                                                  """
+
+# Exemples de set de char possibles :
+minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+                                   'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
+
+majuscules_set = array.array('u', [letter.upper() for letter in minuscules_set])
+
+digit_set = array.array('u', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
+special_char_set = array.array('u', ['&', '#', '@', '$', '*', '%', '/', '?', '!', '<', '>'])
 
 
 def welcome_message():
@@ -129,7 +130,8 @@ def process_options():
             elif option in ("-b", "--basic"):
                 basic_option()
             elif option in ("-i", "--intelligentia"):
-                print("you chose the intelligentia command !")
+                print(f"{TColor.pink}The pain is cooking ...\n"
+                      f"(The intelligent mode is not available yet.){TColor.end}")
 
 
 def help_option():
@@ -149,14 +151,56 @@ def basic_option():
 
     # On vérifie que le nombre de mdp à générer n'est pas trop élevé :
     pwd_number_ok, pwd_nb = check_pwd_number(length_min, length_max, len(char_used))
-    pwd_approximation = approximation(pwd_nb)
 
     if not pwd_number_ok:
-        print(f"{TColor.yellow}Warning : le nombre de mots de passe à générer est > {pwd_approximation}.\n"
-              f"Le temps de génération ainsi que la taille du fichier risquent d'être très élevés.{TColor.end}\n"
-              f"(Etant donné que ces deux paramètres dépendent de la puissance de la machine, il n'est peut-être pas"
-              f"nécessaire de tenir compte de cet avertissement.)")
+        pwd_approximation = approximation(pwd_nb)
+        print(f"\n{TColor.yellow}Warning : le nombre de mots de passe à générer est > "
+              f"{format(pwd_approximation, '_d')}."
+              f"\nLe temps de génération ainsi que la taille du fichier risquent d'être très élevés.\n"
+              f"(Etant donné que ces deux paramètres dépendent de la puissance de la machine ainsi "
+              f"que du stockage disponible, il n'est peut-être pas nécessaire de tenir compte de cet "
+              f"avertissement.){TColor.end}\n")
+
+        # On offre à l'utilisateur le choix de lancer ou d'avorter la génération :
+        do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+        while do_we_exec not in ['Y', 'N']:
+            print(f"{TColor.red}Erreur : Options disponibles : Y or N{TColor.end}")
+            do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+
+        if do_we_exec == 'N':
+            sys.exit("\nAnnulation du lancement de la génération.\nExiting ...\n")
+
+    print("\nGénération des mots de passe en cours ...\n"
+          f"\nRécapitulatif :\n"
+          f"fichier de sortie -> {file_name}\n"
+          f"length min -> {length_min}\n"
+          f"length max -> {length_max}\n"
+          f"char used -> {print_set_char(char_used)}\n")
     write_file(file_name, length_min, length_max, char_used, writing_mode)
+
+    print(f"{TColor.green}La génération des mots de passe est terminée.{TColor.end}\n")
+
+
+def print_set_char(char_set):
+    """
+    Parameters
+    ----------
+    char_set : array
+        An array containing all the characters to use.
+
+    Returns
+    -------
+    string
+        Un affichage propre des caracteres de cet array.
+    """
+
+    clean_affichage = "["
+    for char in char_set:
+        clean_affichage += char + " ; "
+
+    clean_affichage = clean_affichage[:-3] + "]"
+
+    return clean_affichage
 
 
 def approximation(nb):
@@ -173,8 +217,8 @@ def approximation(nb):
     """
 
     # On définit les 8 premiers chiffres à 0 :
-    for i in range(8):
-        trucs
+    nb = int(nb / 10 ** 8)
+    nb = nb * (10 ** 8)
 
     return nb
 
@@ -200,7 +244,7 @@ def check_pwd_number(l_min, l_max, nb_char):
 
     pwd_nb = 0
     # On calcule le nombre de mots de passe à générer :
-    for i in range(l_min, l_max+1):
+    for i in range(l_min, l_max + 1):
         pwd_nb += nb_char ** i
 
     pwd_number_ok = True
@@ -437,9 +481,9 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
         indice_to_modify = length - 1
 
         # On crée tous les mots de passe pour une longueur donnée :
-        for i in range((len(char_set)**length)-1):
+        for i in range((len(char_set) ** length) - 1):
 
-            while mdp[indice_to_modify] == char_set[len(char_set)-1]:  # ancien : if indice_cs == (len(char_set) - 1):
+            while mdp[indice_to_modify] == char_set[len(char_set) - 1]:  # ancien : if indice_cs == (len(char_set) - 1):
                 indice_to_modify -= 1
 
             nouveau_mdp = ""
@@ -450,8 +494,8 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
                     indice_cs = char_set.index(mdp[indice_to_modify]) + 1
                     nouveau_mdp += char_set[indice_cs]
                     # Si le mot de passe n'est pas terminé, on met tous les caractères suivants à cs[0] :
-                    if indice_courant < (length-1):
-                        for indice_restant in range(indice_courant+1, length):
+                    if indice_courant < (length - 1):
+                        for indice_restant in range(indice_courant + 1, length):
                             nouveau_mdp += char_set[0]
                             indice_to_modify = length - 1
                         break
