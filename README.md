@@ -58,13 +58,25 @@ Options possibles :
    
    -h (or --help)               shows the possible options.
 ```
-Démonstration du mode basic :
+#### Démonstration du mode basic :
 
 (En cours d'écriture ...)
 
-## Roadmap
+Remarque :
+Il est possible de fusionner des listes de mots de passe. Pour cela, il suffit de lancer le mode voulu et d'entrer le nom d'un fichier existant.
+Il vous sera alors proposé plusieurs options permettant d'ajouter les mots de passe générés au fichier existant.
 
-(En cours d'écriture ...)
+#### Démonstration du mode intelligent :
+
+(COMING SOON)
+
+## Roadmap :
+
+- [ ] Mode intelligent
+- [ ] Afficher une barre de progression lors de la génération
+- [ ] Disponible en plusieurs langues
+    - [ ] English
+    - [ ] French
 
 ## License
 
