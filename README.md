@@ -34,8 +34,25 @@ Or you can directly download the .zip from https://github.com/RyoDeyn/Pure-Force
 
 ## Usage
 
-(En cours d'écriture ...)
-
+Dans un terminal :
+```
+python pureforce.py [OPTIONS]
+```
+Options possibles :
+```
+   -b (or --basic)              starts the basic mode, which generate an exhaustive list of
+                                passwords from a given range. Use basic interactive questions
+                                to modulate the range. It is the simplest mode but doesn't use
+                                any optimization.
+                                
+   -i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of
+                                passwords. It will use more interactive questions to select the
+                                most relevant passwords. (COMING SOON)
+                                
+   -v (or --version)            show the current version of the program.
+   
+   -h (or --help)               shows the possible options.
+```
 ## Roadmap
 
 (En cours d'écriture ...)
