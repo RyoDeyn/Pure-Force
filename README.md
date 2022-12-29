@@ -23,8 +23,6 @@ Cet outil a été réalisé par Ryo Deyn.
 
 ## Getting Started
 
-(En cours d'écriture ...)
-
 ### Requirements
 
 Il est nécessaire d'avoir Python (version 3.10 ou supérieur) d'installé.   
@@ -60,6 +58,10 @@ Options possibles :
    
    -h (or --help)               shows the possible options.
 ```
+Démonstration du mode basic :
+
+(En cours d'écriture ...)
+
 ## Roadmap
 
 (En cours d'écriture ...)
