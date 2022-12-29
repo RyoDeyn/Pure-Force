@@ -7,10 +7,12 @@ Usage:
     OPTIONS:
     -b (or --basic): starts the basic mode.
     -i (or --intelligentia): starts the intelligent mode. (COMING SOON)
+    -v (or --version): show the current version of the program.
     -h (or --help): shows the possible options.
 """
 
-__authors__ = "Alexandre Quéré aka Ryo"
+__authors__ = "Alexandre Quéré aka Ryo Deyn"
+__version__ = "1.0-en"
 __license__ = "MIT"
 __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 
@@ -61,6 +63,7 @@ options_text = ("Possible options :\n"
                 "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
                 "                             passwords. It will use more interactive questions to select the\n"
                 f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n"
+                "-v (or --version)            show the current version of the program.\n"
                 "-h (or --help)               shows the possible options (this menu).\n")
 
 project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
@@ -69,6 +72,8 @@ project_title = r""" ______   __  __     ______     ______        ______   _____
  \ \_\    \ \_____\  \ \_\ \_\  \ \_____\     \ \_\    \ \_____\  \ \_\ \_\  \ \_____\  \ \_____\ 
   \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
                                                                                                   """
+
+version_text = "Pureforce version 1.0 english (https://github.com/RyoDeyn/Pure-Force)\n"
 
 # Exemples de set de char possibles :
 minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
@@ -103,7 +108,7 @@ def process_options():
     # Ici nos options ne prennent pas d'arguments donc on ne s'occupe pas de 'valeur'.
     # On ne s'occupera pas non plus de argsAfter.
     try:
-        couples, args_after = getopt.getopt(sys.argv[1:], "bih", ["basic", "intelligentia", "help"])
+        couples, args_after = getopt.getopt(sys.argv[1:], "bivh", ["basic", "intelligentia", "version", "help"])
     except getopt.GetoptError as error:
         # On affiche un message d'erreur :
         print("\nError : ", error)
@@ -127,6 +132,8 @@ def process_options():
         for option, value in couples:
             if option in ("-h", "--help"):
                 help_option()
+            elif option in ("-v", "--version"):
+                version_option()
             elif option in ("-b", "--basic"):
                 basic_option()
             elif option in ("-i", "--intelligentia"):
@@ -140,6 +147,12 @@ def help_option():
     print(welcome_text)
     print(usage_text)
     print(options_text)
+
+
+def version_option():
+    """Show the current version of the program.
+    """
+    print(version_text)
 
 
 def basic_option():
