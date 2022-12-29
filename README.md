@@ -10,6 +10,13 @@
 
 Pure-force est un outil de génération de listes de mots de passe visant à être utilisé pour du brute-force.
 
+Il propose deux modes de génération :
+- un mode "basique" : génération exhaustive de mots de passe
+- un mode "intelligent" : génération optimisée des mots de passe grâce à un choix assez large d'options et de données d'entrées. (COMING SOON)
+
+L'objectif du 2e mode est d'optimiser au maximum le temps pris par le brute-force en générant les mots de passe les plus pertinents possibles.
+Il se base pour cela sur les données entrées par l'utilisateur.
+
 ### Author
 
 Cet outil a été réalisé par Ryo Deyn.
