@@ -10,15 +10,27 @@ Pure-force est un outil de génération de listes de mots de passe visant à êt
 
 ### Author
 
+(En cours d'écriture ...)
+
 ## Getting Started
+
+(En cours d'écriture ...)
 
 ### Requirements
 
+(En cours d'écriture ...)
+
 ### Installation
+
+(En cours d'écriture ...)
 
 ## Usage
 
+(En cours d'écriture ...)
+
 ## Roadmap
+
+(En cours d'écriture ...)
 
 ## License
 
