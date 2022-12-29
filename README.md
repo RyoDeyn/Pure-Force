@@ -73,11 +73,11 @@ Utile si par exemple on veut uniquement des mots de passe avec majuscules (AAA, 
 
 ## Roadmap :
 
-- [ ] Mode intelligent
-- [ ] Afficher une barre de progression lors de la génération
 - [ ] Disponible en plusieurs langues
     - [ ] English
     - [ ] French
+- [ ] Mode intelligent
+- [ ] Afficher une barre de progression lors de la génération
 
 ## License
 
