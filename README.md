@@ -1,6 +1,8 @@
 # Pure-Force
 
-[Project Category][Pain] [Version][1.0] [Languages available][2]
+![project category](https://img.shields.io/badge/Project%20Category-Pain-red?style=flat-square)
+![project version](https://img.shields.io/badge/Version-1.0-brightgreen?style=flat-square)
+![number of available languages](https://img.shields.io/badge/Available%20Languages-2-blue?style=flat-square)
 
 ## About
 
@@ -10,7 +12,7 @@ Pure-force est un outil de génération de listes de mots de passe visant à êt
 
 ### Author
 
-(En cours d'écriture ...)
+Cet outil a été réalisé par Ryo Deyn.
 
 ## Getting Started
 
@@ -18,11 +20,17 @@ Pure-force est un outil de génération de listes de mots de passe visant à êt
 
 ### Requirements
 
-(En cours d'écriture ...)
+Il est nécessaire d'avoir Python (version 3.10 ou supérieur) d'installé.   
+Lien de téléchargement : https://www.python.org/downloads/
 
 ### Installation
 
-(En cours d'écriture ...)
+Clone the repository with :
+```sh
+git clone https://github.com/RyoDeyn/Pure-Force.git
+```
+
+Or you can directly download the .zip from https://github.com/RyoDeyn/Pure-Force.
 
 ## Usage
 
