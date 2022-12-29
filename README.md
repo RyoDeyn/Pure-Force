@@ -63,8 +63,9 @@ Options possibles :
 (En cours d'écriture ...)
 
 Remarque :
-Il est possible de fusionner des listes de mots de passe. Pour cela, il suffit de lancer le mode voulu et d'entrer le nom d'un fichier existant.
+Il est possible de fusionner des listes de mots de passe. Pour cela, il suffit de lancer le mode basic et d'entrer le nom d'un fichier existant.
 Il vous sera alors proposé plusieurs options permettant d'ajouter les mots de passe générés au fichier existant.
+Utile si par exemple on veut uniquement des mots de passe avec majuscules (AAA, BBB, …) mais aussi les mots de passe avec chiffres (111, 1234, …) mais pas les deux en même temps. Il suffit alors de les générer en utilisant deux fois le mode basic.
 
 #### Démonstration du mode intelligent :
 
