@@ -1,25 +1,25 @@
 """Script de génération de listes de mots de passe pour du brute-force.
 
-Usage:
+Utilisation:
 ======
     python pureforce.py [OPTIONS]
 
     OPTIONS:
-    -b (or --basic): starts the basic mode.
-    -i (or --intelligentia): starts the intelligent mode. (COMING SOON)
-    -v (or --version): show the current version of the program.
-    -h (or --help): shows the possible options.
+    -b (ou --basic): lance le mode basic.
+    -i (ou --intelligentia): lance le mode intelligent. (BIENTÔT DISPONIBLE)
+    -v (ou --version): affiche la version actuelle du programme.
+    -h (or --help): affiche les options disponibles.
 """
 
-__authors__ = "Alexandre Quéré aka Ryo Deyn"
-__version__ = "v1.0.0-en"
+__author__ = "Alexandre Quéré aka Ryo Deyn"
+__version__ = "v1.0.0-fr"
 __license__ = "MIT"
 __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 
-import sys  # sert à prendre les arguments en ligne de commande
-import getopt  # sert à parser les arguments en ligne de commande
-import array  # sert à stocker les caractères utilisés
-import os  # sert à vérifier si un fichier existe déjà
+import sys
+import getopt
+import array
+import os
 
 
 class TColor:
@@ -47,24 +47,26 @@ class TColor:
 # On définit les variables globales :
 mode = "mode inconnu"
 
-welcome_text = ("\n=========== Welcome on Pure-Force ! ============\n"
-                "====== A free, open and simple password generator. =======\n"
-                "--------------------------------------------------")
+welcome_text = ("\n=================== Bienvenue sur Pure-Force ! ===================\n"
+                "== Un générateur de mots de passe gratuit et simple à utiliser. ==\n"
+                "------------------------------------------------------------------")
 
-pain_hint = "Did you know that 'pain' means 'bread' in french ?\n"
+pain_hint = "Savais-tu que 'pain' veut dire 'douleur' en anglais ?\n"
 
-usage_text = "Usage : pureforce [OPTION]\n"
+usage_text = "Utilisation : pureforce [OPTION]\n"
 
-options_text = ("Possible options :\n"
-                "-b (or --basic)              starts the basic mode, which generate an exhaustive list\n"
-                "                             of passwords from a given range. Use basic interactive questions\n"
-                "                             to modulate the range. It is the simplest mode but doesn't use\n"
-                "                             any optimization.\n"
-                "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
-                "                             passwords. It will use more interactive questions to select the\n"
-                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n"
-                "-v (or --version)            show the current version of the program.\n"
-                "-h (or --help)               shows the possible options (this menu).\n")
+options_text = ("Options possibles :\n"
+                "-b (ou --basic)              lance le mode basic, qui génère une liste exhaustive de mots\n"
+                "                             de passe à partir des paramètres donnés par l'utilisateur."
+                "                             Utilise des questions interactives basiques afin de modifier\n"
+                "                             ces paramètres. Il s'agit du mode de génération le plus simple"
+                "                             mais il n'utilise aucune optimisation;\n"
+                "-i (ou --intelligentia)      lance le mode intelligent, qui génère une liste optimisée de\n"
+                "                             mots de passe. Il utilise plus de questions interactives afin\n"
+                "                             de sélectionner les mots de passe les plus pertinents."
+                f"                            {TColor.pink}(BIENTÔT DISPONIBLE){TColor.end}\n"
+                "-v (ou --version)            affiche la version actuelle du programme.\n"
+                "-h (ou --help)               affiche les options disponibles. (ce menu).\n")
 
 project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
 /\  == \ /\ \/\ \   /\  == \   /\  ___\      /\  ___\ /\  __ \   /\  == \   /\  ___\   /\  ___\   
@@ -73,9 +75,9 @@ project_title = r""" ______   __  __     ______     ______        ______   _____
   \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
                                                                                                   """
 
-version_text = "Pureforce version 1.0.0 english (https://github.com/RyoDeyn/Pure-Force)\n"
+version_text = "Pureforce version 1.0.0 français (https://github.com/RyoDeyn/Pure-Force)\n"
 
-# Exemples de set de char possibles :
+# Exemples d'ensembles de caractères possibles :
 minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
                                    'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
 
@@ -113,20 +115,20 @@ def process_options():
         # On affiche un message d'erreur :
         print("\nError : ", error)
         # On termine l'exécution du script :
-        sys.exit("Use the option -h (or --help) to view the usage and possible options.\n")
+        sys.exit("Utilisez l'option -h (ou --help) pour afficher les options possibles.\n")
 
     # Si on lance le script sans aucuns paramètres ou options :
     if len(couples) == 0 and len(args_after) == 0:
         welcome_message()
     # Si on lance le script avec des arguments supplémentaires :
     elif len(args_after) != 0:
-        print("\nError : pureforce do not accept additional parameters")
-        sys.exit("Use the option -h (or --help) to view the usage and possible options.\n")
+        print("\nErreur : pureforce n'accepte pas de paramètres supplémentaires.")
+        sys.exit("Utilisez l'option -h (ou --help) pour afficher les options possibles.\n")
     # Si on lance le script avec plusieurs options en même temps :
     elif len(couples) > 1:
-        print("\nError : pureforce do not accept several options at the same time.\n"
-              "Example of correct use : python pureforce -b\n"
-              "Example of incorrect use : python pureforce -b -i\n")
+        print("\nErrer : pureforce n'accepte pas plusieurs options en même temps.\n"
+              "Exemple d'utilisation correcte : python pureforce -b\n"
+              "Exemple d'utilisation incorrecte : python pureforce -b -i\n")
     # Cas où l'usage est correcte :
     else:
         for option, value in couples:
@@ -137,8 +139,8 @@ def process_options():
             elif option in ("-b", "--basic"):
                 basic_option()
             elif option in ("-i", "--intelligentia"):
-                print(f"{TColor.pink}The pain is cooking ...\n"
-                      f"(The intelligent mode is not available yet.){TColor.end}")
+                print(f"{TColor.pink}Le pain est en train de cuire ...\n"
+                      f"(Le mode intelligent n'est pas encore disponible.){TColor.end}")
 
 
 def help_option():
@@ -150,7 +152,7 @@ def help_option():
 
 
 def version_option():
-    """Show the current version of the program.
+    """Affiche la version actuelle du programme
     """
     print(version_text)
 
@@ -167,28 +169,28 @@ def basic_option():
 
     if not pwd_number_ok:
         pwd_approximation = approximation(pwd_nb)
-        print(f"\n{TColor.yellow}Warning : le nombre de mots de passe à générer est > "
+        print(f"\n{TColor.yellow}Attention : le nombre de mots de passe à générer est > "
               f"{format(pwd_approximation, '_d')}."
-              f"\nLe temps de génération ainsi que la taille du fichier risquent d'être très élevés.\n"
-              f"(Etant donné que ces deux paramètres dépendent de la puissance de la machine ainsi "
+              f"\nLe temps de génération ainsi que la taille du fichier peuvent être très élevés.\n"
+              f"(Étant donné que ces deux paramètres dépendent de la puissance de la machine ainsi "
               f"que du stockage disponible, il n'est peut-être pas nécessaire de tenir compte de cet "
               f"avertissement.){TColor.end}\n")
 
         # On offre à l'utilisateur le choix de lancer ou d'avorter la génération :
-        do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
-        while do_we_exec not in ['Y', 'N']:
-            print(f"{TColor.red}Erreur : Options disponibles : Y or N{TColor.end}")
-            do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+        do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (O/N) {TColor.red}(*){TColor.end}: ")
+        while do_we_exec not in ['O', 'N']:
+            print(f"{TColor.red}Erreur : Options disponibles : O ou N{TColor.end}")
+            do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (O/N) {TColor.red}(*){TColor.end}: ")
 
         if do_we_exec == 'N':
-            sys.exit("\nAnnulation du lancement de la génération.\nExiting ...\n")
+            sys.exit("\nAnnulation du lancement de la génération.\nSortie ...\n")
 
     print("\nGénération des mots de passe en cours ...\n"
           f"\nRécapitulatif :\n"
           f"fichier de sortie -> {file_name}\n"
-          f"length min -> {length_min}\n"
-          f"length max -> {length_max}\n"
-          f"char used -> {print_set_char(char_used)}\n")
+          f"longueur minimale -> {length_min}\n"
+          f"longueur maximale -> {length_max}\n"
+          f"caractères utilisés -> {print_set_char(char_used)}\n")
     write_file(file_name, length_min, length_max, char_used, writing_mode)
 
     print(f"{TColor.green}La génération des mots de passe est terminée.{TColor.end}\n")
@@ -199,12 +201,12 @@ def print_set_char(char_set):
     Parameters
     ----------
     char_set : array
-        An array containing all the characters to use.
+        Un tableau contenant tous les caractères à utiliser.
 
     Returns
     -------
     string
-        Un affichage propre des caracteres de cet array.
+        Un affichage propre des caractères de ce tableau.
     """
 
     clean_affichage = "["
@@ -221,12 +223,12 @@ def approximation(nb):
     Parameters
     ----------
     nb : int
-        The number to approximate.
+        Le nombre à approximer.
 
     Returns
     -------
     int
-        The approximation.
+        L'approximation.
     """
 
     # On définit les 8 premiers chiffres à 0 :
@@ -250,7 +252,7 @@ def check_pwd_number(l_min, l_max, nb_char):
     Returns
     -------
     pwd_number_ok : boolean
-        If the number of passwords to generate is not too high.
+        Si le nombre de mots de passe à générer est trop élevé.
     pwd_nb : int
         An approximation of the number of passwords to generate (valeur inférieure au nombre réelle).
     """
