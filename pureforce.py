@@ -12,7 +12,7 @@ Usage:
 """
 
 __authors__ = "Alexandre Quéré aka Ryo Deyn"
-__version__ = "1.0.0-en"
+__version__ = "v1.0.0-en"
 __license__ = "MIT"
 __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 
