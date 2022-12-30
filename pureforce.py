@@ -12,7 +12,7 @@ Usage:
 """
 
 __authors__ = "Alexandre Quéré aka Ryo Deyn"
-__version__ = "1.0-en"
+__version__ = "1.0.0-en"
 __license__ = "MIT"
 __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 
@@ -73,7 +73,7 @@ project_title = r""" ______   __  __     ______     ______        ______   _____
   \/_/     \/_____/   \/_/ /_/   \/_____/      \/_/     \/_____/   \/_/ /_/   \/_____/   \/_____/ 
                                                                                                   """
 
-version_text = "Pureforce version 1.0 english (https://github.com/RyoDeyn/Pure-Force)\n"
+version_text = "Pureforce version 1.0.0 english (https://github.com/RyoDeyn/Pure-Force)\n"
 
 # Exemples de set de char possibles :
 minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
