@@ -1,7 +1,7 @@
 # Pure-Force
 
 ![project category](https://img.shields.io/badge/Project%20Category-Pain-red?style=flat-square)
-![project version](https://img.shields.io/badge/Version-1.0-brightgreen?style=flat-square)
+![project version](https://img.shields.io/badge/Version-1.0.0-brightgreen?style=flat-square)
 ![number of available languages](https://img.shields.io/badge/Available%20Languages-2-blue?style=flat-square)
 
 ## About
