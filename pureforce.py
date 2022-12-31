@@ -113,7 +113,7 @@ def process_options():
         couples, args_after = getopt.getopt(sys.argv[1:], "bivh", ["basic", "intelligentia", "version", "help"])
     except getopt.GetoptError as error:
         # On affiche un message d'erreur :
-        print("\nError : ", error)
+        print("\nErreur : ", error)
         # On termine l'exécution du script :
         sys.exit("Utilisez l'option -h (ou --help) pour afficher les options possibles.\n")
 
@@ -126,7 +126,7 @@ def process_options():
         sys.exit("Utilisez l'option -h (ou --help) pour afficher les options possibles.\n")
     # Si on lance le script avec plusieurs options en même temps :
     elif len(couples) > 1:
-        print("\nErrer : pureforce n'accepte pas plusieurs options en même temps.\n"
+        print("\nErreur : pureforce n'accepte pas plusieurs options en même temps.\n"
               "Exemple d'utilisation correcte : python pureforce -b\n"
               "Exemple d'utilisation incorrecte : python pureforce -b -i\n")
     # Cas où l'usage est correcte :
@@ -254,7 +254,7 @@ def check_pwd_number(l_min, l_max, nb_char):
     pwd_number_ok : boolean
         Si le nombre de mots de passe à générer est trop élevé.
     pwd_nb : int
-        An approximation of the number of passwords to generate (valeur inférieure au nombre réelle).
+        Une approximation du nombre de mots de passe à générer (valeur inférieure ou égale au nombre réelle).
     """
 
     pwd_nb = 0
@@ -289,7 +289,7 @@ def basic_message():
     """
     print("--------------------------------------------------")
     print(project_title)
-    print(f"{TColor.green}Entering basic mode ...{TColor.end}\n"
+    print(f"{TColor.green}Mode basic démarré ...{TColor.end}\n"
           "\nLa liste des mots de passe sera écrite dans un fichier txt (nom par défaut : 'pforce-basic.txt')."
           f"\nLes questions obligatoires sont marquées avec un {TColor.red}(*){TColor.end}.\n")
 
@@ -298,24 +298,24 @@ def basic_message():
 
     # Si le fichier existe déjà :
     if os.path.isfile(f"{os.path.abspath(os.getcwd())}\\{file_name}"):
-        print(f"{TColor.yellow}Warning : the file {file_name} already exists. Choose the option you want :"
-              f"\n- create a new file (by changing the name) (1)"
-              f"\n- override the existing file (2)"
-              f"\n- append the generated passwords to the existing file (3){TColor.end}")
+        print(f"{TColor.yellow}Attention : le fichier {file_name} existe déjà. Choisissez parmi une des options :"
+              f"\n- créer un nouveau fichier (en changeant le nom) (1)"
+              f"\n- ré-écrire le fichier existant (2)"
+              f"\n- ajouter les mots de passe générés au fichier existant (3){TColor.end}")
         file_option = input("--> ")
         while file_option not in ['1', '2', '3']:
-            print(f"{TColor.red}Erreur : Options disponibles : 1, 2 or 3.{TColor.end}")
+            print(f"{TColor.red}Erreur : Options disponibles : 1, 2 ou 3.{TColor.end}")
             file_option = input("--> ")
 
         # Traitement selon l'option choisie :
         if file_option == '1':
-            file_name = ask_file_name("Choose a new file name: ")
+            file_name = ask_file_name("Choisissez un nouveau nom de fichier: ")
         elif file_option == '2':
             writing_mode = 'w'
         elif file_option == '3':
             writing_mode = 'a'
         else:
-            sys.exit("Erreur : option inconnue.\nExiting ...")
+            sys.exit("Erreur : option inconnue.\nSortie ...")
 
     length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
     length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
@@ -324,32 +324,32 @@ def basic_message():
         print(f"{TColor.red}Erreur : la longueur maximale ne peut être inférieure à la longueur minimale.{TColor.end}")
         length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
 
-    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, c, ...) ? (Y/N) "
+    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, c, ...) ? (O/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, C, ...) ? (Y/N) "
+    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, C, ...) ? (O/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, 2, ...) ? (Y/N) "
+    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, 2, ...) ? (O/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, @, ...) ? (Y/N) "
+    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, @, ...) ? (O/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
 
     # Si aucun char selectionné, on arrete l'execution du script :
     stop_exec = True
     for resp in [min_set_used, maj_set_used, dig_set_used, spe_set_used]:
-        if resp == 'Y':
+        if resp == 'O':
             stop_exec = False
     if stop_exec:
-        sys.exit(f"\n{TColor.orange}You did not select any char set, exiting ...{TColor.end}\n")
+        sys.exit(f"\n{TColor.orange}Vous n'avez sélectionné aucuns caractères, sortie ...{TColor.end}\n")
 
     char_used = array.array('u')
 
-    if min_set_used == 'Y':
+    if min_set_used == 'O':
         char_used += minuscules_set
-    if maj_set_used == 'Y':
+    if maj_set_used == 'O':
         char_used += majuscules_set
-    if dig_set_used == 'Y':
+    if dig_set_used == 'O':
         char_used += digit_set
-    if spe_set_used == 'Y':
+    if spe_set_used == 'O':
         char_used += special_char_set
 
     return file_name, length_min, length_max, char_used, writing_mode
@@ -414,7 +414,7 @@ def int_input(question):
 
 
 def yes_no_input(question):
-    """Demande à l'utilisateur d'entrer 'Y' or 'N', puis effectue une vérification sur la valeur entrée.
+    """Demande à l'utilisateur d'entrer 'O' ou 'N', puis effectue une vérification sur la valeur entrée.
 
     Parameters
     ----------
@@ -427,8 +427,8 @@ def yes_no_input(question):
         La réponse entrée par l'utilisateur.
     """
     rep = input(question)
-    while rep not in ['Y', 'N']:
-        print(f"{TColor.red}Erreur : vous devez entrer 'Y' or 'N'.{TColor.end}")
+    while rep not in ['O', 'N']:
+        print(f"{TColor.red}Erreur : vous devez entrer 'O' ou 'N'.{TColor.end}")
         # On re-demande l'entrée à l'utilisateur :
         rep = input(question)
 
@@ -457,11 +457,11 @@ def write_file(file_name, length_min, length_max, char_used, writing_mode):
         with open(file_name, writing_mode) as file:
             generate_basic_passwd(file, length_min, length_max, char_used)
     except PermissionError:
-        print("\nError : permission denied.\n"
-              "Could not open file : ", file_name)
+        print("\nErreur : permission refusée.\n"
+              "Le fichier ", file_name, " n'a pas pu être ouvert.")
         sys.exit(f"-> Abandon du mode {mode}\n")
     except OSError:
-        print("\nCould not open file : ", file_name)
+        print("\nLe fichier ", file_name, " n'a pas pu être ouvert.")
         sys.exit(f"-> Abandon du mode {mode}\n")
 
 
