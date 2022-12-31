@@ -1,12 +1,12 @@
 # Pure-Force
 
-![project category](https://img.shields.io/badge/Project%20Category-Pain-red?style=flat-square)
+![project category](https://img.shields.io/badge/Categorie%20de%20projet-Pain-red?style=flat-square)
 ![project version](https://img.shields.io/badge/Version-1.0.0-brightgreen?style=flat-square)
-![number of available languages](https://img.shields.io/badge/Available%20Languages-2-blue?style=flat-square)
+![number of available languages](https://img.shields.io/badge/Langages%20disponibles-2-blue?style=flat-square)
 
-## About
+## A propos
 
-### Project
+### Projet
 
 Pure-force est un outil de génération de listes de mots de passe visant à être utilisé pour du brute-force.
 
@@ -17,27 +17,27 @@ Il propose deux modes de génération :
 L'objectif du 2e mode est d'optimiser au maximum le temps pris par le brute-force en générant les mots de passe les plus pertinents possibles.
 Il se base pour cela sur les données entrées par l'utilisateur.
 
-### Author
+### Auteur
 
 Cet outil a été réalisé par Ryo Deyn.
 
-## Getting Started
+## Pour commencer
 
-### Requirements
+### Elements requis
 
 Il est nécessaire d'avoir Python (version 3.10 ou supérieur) d'installé.   
 Lien de téléchargement : https://www.python.org/downloads/
 
 ### Installation
 
-Clone the repository with :
+Cloner le répertoire avec git :
 ```sh
 git clone https://github.com/RyoDeyn/Pure-Force.git
 ```
 
-Or you can directly download the .zip from https://github.com/RyoDeyn/Pure-Force.
+Il est également possible de télécharger directement le .zip depuis https://github.com/RyoDeyn/Pure-Force.
 
-## Usage
+## Utilisation
 
 Dans un terminal :
 ```
@@ -45,18 +45,20 @@ python pureforce.py [OPTIONS]
 ```
 Options possibles :
 ```
-   -b (or --basic)              starts the basic mode, which generate an exhaustive list of
-                                passwords from a given range. Use basic interactive questions
-                                to modulate the range. It is the simplest mode but doesn't use
-                                any optimization.
+   -b (ou --basic)              lance le mode basic, qui génère une liste exhaustive de mots
+                                de passe à partir des paramètres donnés par l'utilisateur.
+                                Utilise des questions interactives basiques afin de modifier
+                                ces paramètres. Il s'agit du mode de génération le plus simple
+                                mais il n'utilise aucune optimisation.
                                 
-   -i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of
-                                passwords. It will use more interactive questions to select the
-                                most relevant passwords. (COMING SOON)
-                                
-   -v (or --version)            show the current version of the program.
+   -i (ou --intelligentia)      lance le mode intelligent, qui génère une liste optimisée de
+                                mots de passe. Il utilise plus de questions interactives afin
+                                de sélectionner les mots de passe les plus pertinents.
+                                (BIENTÔT DISPONIBLE)
+                               
+   -v (ou --version)            affiche la version actuelle du programme.
    
-   -h (or --help)               shows the possible options.
+   -h (ou --help)               affiche les options disponibles (ce menu).
 ```
 #### Démonstration du mode basic :
 
@@ -69,16 +71,16 @@ Utile si par exemple on veut uniquement des mots de passe avec majuscules (AAA, 
 
 #### Démonstration du mode intelligent :
 
-(COMING SOON)
+(BIENTÔT DISPONIBLE)
 
-## Roadmap :
+## Fonctionnalités futures :
 
 - [ ] Disponible en plusieurs langues
-    - [ ] English
-    - [ ] French
+    - [ ] Anglais
+    - [ ] Français
 - [ ] Mode intelligent
 - [ ] Afficher une barre de progression lors de la génération
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+Ce projet est sous license selon les termes de la license MIT.
