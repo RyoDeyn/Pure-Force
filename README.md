@@ -62,7 +62,7 @@ Possible options :
 
 ![pureforce-demo](examples/pure-force_demo.gif)
 
-Remark :
+**Note :**   
 It is possible to merge lists of passwords. To do this, simply launch the basic mode and enter the name of an existing file.
 You will then be offered several options, one allowing you to add the generated passwords to the existing file.
 Useful if, for example, you only want passwords with uppercase letters (AAA, BBB, …) but also passwords with numbers (111, 1234, …)
