@@ -12,7 +12,7 @@ Pure-force est un outil de génération de listes de mots de passe visant à êt
 
 Il propose deux modes de génération :
 - un mode "basique" : génération exhaustive de mots de passe
-- un mode "intelligent" : génération optimisée des mots de passe grâce à un choix assez large d'options et de données d'entrées. (COMING SOON)
+- un mode "intelligent" : génération optimisée des mots de passe grâce à un choix assez large d'options et de données d'entrées. (BIENTÔT DISPONIBLE)
 
 L'objectif du 2e mode est d'optimiser au maximum le temps pris par le brute-force en générant les mots de passe les plus pertinents possibles.
 Il se base pour cela sur les données entrées par l'utilisateur.
@@ -23,7 +23,7 @@ Cet outil a été réalisé par Ryo Deyn.
 
 ## Pour commencer
 
-### Elements requis
+### Eléments requis
 
 Il est nécessaire d'avoir Python (version 3.10 ou supérieur) d'installé.   
 Lien de téléchargement : https://www.python.org/downloads/
@@ -58,7 +58,7 @@ Options possibles :
                                
    -v (ou --version)            affiche la version actuelle du programme.
    
-   -h (ou --help)               affiche les options disponibles (ce menu).
+   -h (ou --help)               affiche les options disponibles.
 ```
 #### Démonstration du mode basic :
 
