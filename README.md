@@ -62,7 +62,7 @@ Options possibles :
 ```
 #### Démonstration du mode basic :
 
-![pureforce-demo](examples/pure-force_demo.gif)
+![pureforce-demo](examples/pure-force_demo.gif)  
 *(La vidéo de démonstration a été réalisée sur la version anglaise mais les fonctionnalités restent les mêmes.)*
 
 Remarque :
