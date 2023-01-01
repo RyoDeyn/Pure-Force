@@ -297,7 +297,7 @@ def basic_message():
     writing_mode = 'w'
 
     # Si le fichier existe déjà :
-    if os.path.isfile(f"{os.path.abspath(os.getcwd())}\\{file_name}"):
+    if os.path.isfile(f"{os.path.abspath(os.getcwd())}/{file_name}"):
         print(f"{TColor.yellow}Attention : le fichier {file_name} existe déjà. Choisissez parmi une des options :"
               f"\n- créer un nouveau fichier (en changeant le nom) (1)"
               f"\n- ré-écrire le fichier existant (2)"
