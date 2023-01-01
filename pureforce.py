@@ -1,30 +1,30 @@
-"""Script de génération de listes de mots de passe pour du brute-force.
+"""A python script that generates a list of passwords. To be used for brute-force.
 
 Usage:
 ======
     python pureforce.py [OPTIONS]
 
     OPTIONS:
-    -b (or --basic): starts the basic mode.
-    -i (or --intelligentia): starts the intelligent mode. (COMING SOON)
-    -v (or --version): show the current version of the program.
-    -h (or --help): shows the possible options.
+    -b (or --basic): start the basic mode.
+    -i (or --intelligentia): start the intelligent mode. (COMING SOON)
+    -v (or --version): display the current version of the program.
+    -h (or --help): display the possible options.
 """
 
-__authors__ = "Alexandre Quéré aka Ryo Deyn"
+__author__ = "Alexandre Quéré aka Ryo Deyn"
 __version__ = "v1.0.0-en"
 __license__ = "MIT"
 __copyright__ = "Copyright (C) 2022 Alexandre Quéré"
 
-import sys  # sert à prendre les arguments en ligne de commande
-import getopt  # sert à parser les arguments en ligne de commande
-import array  # sert à stocker les caractères utilisés
-import os  # sert à vérifier si un fichier existe déjà
+import sys
+import getopt
+import array
+import os
 
 
 class TColor:
     """
-    Stocke les différentes couleurs possibles si on veut afficher du texte dans le terminal en couleur.
+    Store the different possible colors if we want to display colored text in the terminal.
     """
     black = '\033[30m'
     red = '\033[31m'
@@ -44,27 +44,26 @@ class TColor:
     end = '\033[0m'
 
 
-# On définit les variables globales :
-mode = "mode inconnu"
+mode = "unknown"
 
-welcome_text = ("\n=========== Welcome on Pure-Force ! ============\n"
-                "====== A free, open and simple password generator. =======\n"
-                "--------------------------------------------------")
+welcome_text = ("\n============ Welcome on Pure-Force ! ============\n"
+                "== A free, open and simple password generator. ==\n"
+                "-------------------------------------------------")
 
 pain_hint = "Did you know that 'pain' means 'bread' in french ?\n"
 
 usage_text = "Usage : pureforce [OPTION]\n"
 
 options_text = ("Possible options :\n"
-                "-b (or --basic)              starts the basic mode, which generate an exhaustive list\n"
-                "                             of passwords from a given range. Use basic interactive questions\n"
+                "-b (or --basic)              start the basic mode, that generate an exhaustive list of\n"
+                "                             passwords from a given range. Use basic interactive questions\n"
                 "                             to modulate the range. It is the simplest mode but doesn't use\n"
-                "                             any optimization.\n"
-                "-i (or --intelligentia)      starts the intelligent mode, which generate an optimized list of\n"
+                "                             any optimization.\n\n"
+                "-i (or --intelligentia)      start the intelligent mode, that generate an optimized list of\n"
                 "                             passwords. It will use more interactive questions to select the\n"
-                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n"
-                "-v (or --version)            show the current version of the program.\n"
-                "-h (or --help)               shows the possible options (this menu).\n")
+                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n\n"
+                "-v (or --version)            display the current version of the program.\n\n"
+                "-h (or --help)               display the possible options (this menu).\n")
 
 project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
 /\  == \ /\ \/\ \   /\  == \   /\  ___\      /\  ___\ /\  __ \   /\  == \   /\  ___\   /\  ___\   
@@ -75,7 +74,7 @@ project_title = r""" ______   __  __     ______     ______        ______   _____
 
 version_text = "Pureforce version 1.0.0 english (https://github.com/RyoDeyn/Pure-Force)\n"
 
-# Exemples de set de char possibles :
+# Possible character sets :
 minuscules_set = array.array('u', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
                                    'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
 
@@ -87,47 +86,43 @@ special_char_set = array.array('u', ['&', '#', '@', '$', '*', '%', '/', '?', '!'
 
 
 def welcome_message():
-    """Affiche un message de bienvenue.
-    Affiche également des explications sur l'utilisation du script.
+    """Display a welcome message as wall as explanations about the use of this script.
     """
-    # On affiche le message de bienvenue :
+    # Display welcome message :
     print(welcome_text)
     print(pain_hint)
 
-    # On affiche la forme d'utilisation de pureforce :
+    # Display the usage of pureforce :
     print(usage_text)
 
-    # On affiche les options possibles :
+    # Display possible options :
     print(options_text)
 
 
 def process_options():
-    """Gère les options et les paramètres du script."""
-    # couples : liste de couples [options, valeur] ; exemple : (-l, 4);(-p, "er")
-    # finArgs : les arguments supplémentaires s'il y en a
-    # Ici nos options ne prennent pas d'arguments donc on ne s'occupe pas de 'valeur'.
-    # On ne s'occupera pas non plus de argsAfter.
+    """Manage script options and parameters."""
+
     try:
         couples, args_after = getopt.getopt(sys.argv[1:], "bivh", ["basic", "intelligentia", "version", "help"])
     except getopt.GetoptError as error:
-        # On affiche un message d'erreur :
+        # Display error message :
         print("\nError : ", error)
-        # On termine l'exécution du script :
+        # We end the execution of the script :
         sys.exit("Use the option -h (or --help) to view the usage and possible options.\n")
 
-    # Si on lance le script sans aucuns paramètres ou options :
+    # If we run the script without any parameters or options :
     if len(couples) == 0 and len(args_after) == 0:
         welcome_message()
-    # Si on lance le script avec des arguments supplémentaires :
+    # If we run the script with additional parameters :
     elif len(args_after) != 0:
         print("\nError : pureforce do not accept additional parameters")
         sys.exit("Use the option -h (or --help) to view the usage and possible options.\n")
-    # Si on lance le script avec plusieurs options en même temps :
+    # If we run the script with several options at the same time :
     elif len(couples) > 1:
         print("\nError : pureforce do not accept several options at the same time.\n"
               "Example of correct use : python pureforce -b\n"
               "Example of incorrect use : python pureforce -b -i\n")
-    # Cas où l'usage est correcte :
+    # Case where the usage is correct :
     else:
         for option, value in couples:
             if option in ("-h", "--help"):
@@ -142,7 +137,7 @@ def process_options():
 
 
 def help_option():
-    """Affiche la page d'aide.
+    """Display the help page.
     """
     print(welcome_text)
     print(usage_text)
@@ -150,48 +145,47 @@ def help_option():
 
 
 def version_option():
-    """Show the current version of the program.
+    """Display the current version of the program.
     """
     print(version_text)
 
 
 def basic_option():
-    """Lance le mode basic.
+    """Start the basic mode.
     """
     global mode
     mode = "basic"
     file_name, length_min, length_max, char_used, writing_mode = basic_message()
 
-    # On vérifie que le nombre de mdp à générer n'est pas trop élevé :
+    # We check that the number of passwords to generate is not too high :
     pwd_number_ok, pwd_nb = check_pwd_number(length_min, length_max, len(char_used))
 
     if not pwd_number_ok:
         pwd_approximation = approximation(pwd_nb)
-        print(f"\n{TColor.yellow}Warning : le nombre de mots de passe à générer est > "
+        print(f"\n{TColor.yellow}Warning : the number of passwords to generate is > "
               f"{format(pwd_approximation, '_d')}."
-              f"\nLe temps de génération ainsi que la taille du fichier risquent d'être très élevés.\n"
-              f"(Etant donné que ces deux paramètres dépendent de la puissance de la machine ainsi "
-              f"que du stockage disponible, il n'est peut-être pas nécessaire de tenir compte de cet "
-              f"avertissement.){TColor.end}\n")
+              f"\nThe generation time as well as the file size may be very high.\n"
+              f"(Since these two parameters depend on the power of the machine as well as"
+              f"the available storage, it may not be necessary to heed this warning.){TColor.end}\n")
 
-        # On offre à l'utilisateur le choix de lancer ou d'avorter la génération :
-        do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+        # The user is offered the choice to launch or abort the generation :
+        do_we_exec = input(f"Do you still want to start the generation ? (Y/N) {TColor.red}(*){TColor.end}: ")
         while do_we_exec not in ['Y', 'N']:
-            print(f"{TColor.red}Erreur : Options disponibles : Y or N{TColor.end}")
-            do_we_exec = input(f"Voulez-vous tout de même lancer la génération ? (Y/N) {TColor.red}(*){TColor.end}: ")
+            print(f"{TColor.red}Error : Available options : Y or N{TColor.end}")
+            do_we_exec = input(f"Do you still want to start the generation ? (Y/N) {TColor.red}(*){TColor.end}: ")
 
         if do_we_exec == 'N':
-            sys.exit("\nAnnulation du lancement de la génération.\nExiting ...\n")
+            sys.exit("\nThe generation was cancelled successfully.\nExiting ...\n")
 
-    print("\nGénération des mots de passe en cours ...\n"
-          f"\nRécapitulatif :\n"
-          f"fichier de sortie -> {file_name}\n"
-          f"length min -> {length_min}\n"
-          f"length max -> {length_max}\n"
-          f"char used -> {print_set_char(char_used)}\n")
+    print("\nGenerating passwords in progress...\n"
+          f"\nOverview :\n"
+          f"output file -> {file_name}\n"
+          f"minimum length -> {length_min}\n"
+          f"maximum length -> {length_max}\n"
+          f"characters used -> {print_set_char(char_used)}\n")
     write_file(file_name, length_min, length_max, char_used, writing_mode)
 
-    print(f"{TColor.green}La génération des mots de passe est terminée.{TColor.end}\n")
+    print(f"{TColor.green}Password generation completed successfully.{TColor.end}\n")
 
 
 def print_set_char(char_set):
@@ -204,7 +198,7 @@ def print_set_char(char_set):
     Returns
     -------
     string
-        Un affichage propre des caracteres de cet array.
+        A clean display of all the characters of the array.
     """
 
     clean_affichage = "["
@@ -241,22 +235,22 @@ def check_pwd_number(l_min, l_max, nb_char):
     Parameters
     ----------
     l_min : int
-        La longueur minimale des mots de passe à générer.
+        The minimum length of passwords to generate.
     l_max : int
-        La longueur maximale des mots de passe à générer.
+        The maximum length of passwords to generate.
     nb_char : int
-        Le nombre de caractères possibles.
+        The number of possible characters.
 
     Returns
     -------
     pwd_number_ok : boolean
         If the number of passwords to generate is not too high.
     pwd_nb : int
-        An approximation of the number of passwords to generate (valeur inférieure au nombre réelle).
+        An approximation of the number of passwords to generate (less than or equal to the actual number).
     """
 
     pwd_nb = 0
-    # On calcule le nombre de mots de passe à générer :
+    # We calculate the number of passwords to generate:
     for i in range(l_min, l_max + 1):
         pwd_nb += nb_char ** i
 
@@ -269,32 +263,32 @@ def check_pwd_number(l_min, l_max, nb_char):
 
 
 def basic_message():
-    """Affiche un message de bienvenue lorsque l'on rentre dans le mode basic.
-    Un truc sympa et stylé.
+    """Displays a welcome message when entering basic mode.
+    Something cool and stylish.
 
     Returns
     -------
     file_name : string
         Name of the file to store the passwords.
     length_min : int
-        Longueur minimale des mots de passe (inclus).
+        Minimum length of passwords (included).
     length_max : int
-        Longueur maximale des mots de passe (inclus).
+        Maximum length of passwords (included).
     char_used : array
-        Contient l'ensemble des char utilisés.
+        Contains all the characters used.
     writing_mode : string
-        Le mode d'écriture sur le fichier (write or append).
+        The mode to use on the file (write or append).
     """
     print("--------------------------------------------------")
     print(project_title)
     print(f"{TColor.green}Entering basic mode ...{TColor.end}\n"
-          "\nLa liste des mots de passe sera écrite dans un fichier txt (nom par défaut : 'pforce-basic.txt')."
-          f"\nLes questions obligatoires sont marquées avec un {TColor.red}(*){TColor.end}.\n")
+          "\nThe list of passwords will be written to a txt file (default name: 'pforce-basic.txt')."
+          f"\nRequired questions are marked with an {TColor.red}(*){TColor.end}.\n")
 
-    file_name = ask_file_name("Nom du fichier txt: ")
+    file_name = ask_file_name("File name: ")
     writing_mode = 'w'
 
-    # Si le fichier existe déjà :
+    # If the file already exists :
     if os.path.isfile(f"{os.path.abspath(os.getcwd())}/{file_name}"):
         print(f"{TColor.yellow}Warning : the file {file_name} already exists. Choose the option you want :"
               f"\n- create a new file (by changing the name) (1)"
@@ -302,7 +296,7 @@ def basic_message():
               f"\n- append the generated passwords to the existing file (3){TColor.end}")
         file_option = input("--> ")
         while file_option not in ['1', '2', '3']:
-            print(f"{TColor.red}Erreur : Options disponibles : 1, 2 or 3.{TColor.end}")
+            print(f"{TColor.red}Error : Available options : 1, 2 or 3.{TColor.end}")
             file_option = input("--> ")
 
         # Traitement selon l'option choisie :
@@ -313,31 +307,31 @@ def basic_message():
         elif file_option == '3':
             writing_mode = 'a'
         else:
-            sys.exit("Erreur : option inconnue.\nExiting ...")
+            sys.exit("Error : unknown option.\nExiting ...")
 
-    length_min = int_input(f"Longueur minimale des mots de passe {TColor.red}(*){TColor.end}: ")
-    length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
+    length_min = int_input(f"Minimum length of passwords {TColor.red}(*){TColor.end}: ")
+    length_max = int_input(f"Maximum length of passwords {TColor.red}(*){TColor.end}: ")
 
     while length_max < length_min:
-        print(f"{TColor.red}Erreur : la longueur maximale ne peut être inférieure à la longueur minimale.{TColor.end}")
-        length_max = int_input(f"Longueur maximale des mots de passe {TColor.red}(*){TColor.end}: ")
+        print(f"{TColor.red}Error : the maximum length cannot be less than the minimum length.{TColor.end}")
+        length_max = int_input(f"Maximum length of passwords {TColor.red}(*){TColor.end}: ")
 
-    min_set_used = yes_no_input(f"Voulez-vous utiliser les minuscules (a, b, c, ...) ? (Y/N) "
+    min_set_used = yes_no_input(f"Do you want to use lowercase (a, b, c, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    maj_set_used = yes_no_input(f"Voulez-vous utiliser les majuscules (A, B, C, ...) ? (Y/N) "
+    maj_set_used = yes_no_input(f"Do you want to use uppercase (A, B, C, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    dig_set_used = yes_no_input(f"Voulez-vous utiliser les chiffres (0, 1, 2, ...) ? (Y/N) "
+    dig_set_used = yes_no_input(f"Do you want to use digits (0, 1, 2, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
-    spe_set_used = yes_no_input(f"Voulez-vous utiliser des char spéciaux (&, #, @, ...) ? (Y/N) "
+    spe_set_used = yes_no_input(f"Do you want to use special characters (&, #, @, ...) ? (Y/N) "
                                 f"{TColor.red}(*){TColor.end}: ")
 
-    # Si aucun char selectionné, on arrete l'execution du script :
+    # If no character set selected, we stop the execution of the script:
     stop_exec = True
     for resp in [min_set_used, maj_set_used, dig_set_used, spe_set_used]:
         if resp == 'Y':
             stop_exec = False
     if stop_exec:
-        sys.exit(f"\n{TColor.orange}You did not select any char set, exiting ...{TColor.end}\n")
+        sys.exit(f"\n{TColor.orange}You did not select any character set, exiting ...{TColor.end}\n")
 
     char_used = array.array('u')
 
@@ -354,17 +348,17 @@ def basic_message():
 
 
 def ask_file_name(question):
-    """Demande à l'utilisateur d'entrer un nom de fichier, puis effectue une vérification sur la valeur entrée.
+    """Asks the user to enter a file name, then performs a check on the entered value.
 
     Parameters
     ----------
     question : string
-        La question à afficher à l'utilisateur.
+        The question to display to the user.
 
     Returns
     -------
     string
-        Le nom de fichier entré par l'utilisateur.
+        The file name entered by the user.
     """
     file_name = input(question)
     if file_name == "":
@@ -372,84 +366,84 @@ def ask_file_name(question):
     elif ".txt" not in file_name:
         file_name += ".txt"
     while len(file_name) > 200:
-        print(f"{TColor.red}Erreur : le nom du fichier ne doit pas dépasser 200 caractères.{TColor.end}")
+        print(f"{TColor.red}Error : the file name must not exceed 200 characters.{TColor.end}")
         file_name = input(question)
 
     return file_name
 
 
 def int_input(question):
-    """Demande à l'utilisateur d'entrer un entier, puis effectue une vérification sur la valeur entrée.
+    """Asks the user to enter an integer, then performs a check on the entered value.
 
     Parameters
     ----------
     question : string
-        La question à afficher à l'utilisateur.
+        The question to display to the user.
 
     Returns
     -------
     int
-        L'entier entré par l'utilisateur.
+        The integer entered by the user.
     """
     v_string = input(question)
     v_int = 0
 
-    # On vérifie que l'utilisateur a bien entré un entier :
+    # We check that the user has indeed entered an integer:
     try:
         v_int = int(v_string)
-        # On vérifie que l'entier est supérieur à 1 :
+        # Check that the integer is greater than 1:
         if v_int < 1:
-            print(f"{TColor.red}Erreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
-            # On re-demande l'entrée à l'utilisateur :
+            print(f"{TColor.red}Error : you must enter an integer greater than or equal to 1.{TColor.end}")
+            # We ask the user again for input:
             v_int = int_input(question)
     except ValueError as error:
-        # On affiche un message d'erreur :
+        # We display an error message :
         print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
-        # On re-demande l'entrée à l'utilisateur :
+        # We ask the user again for input:
         v_int = int_input(question)
 
     return v_int
 
 
 def yes_no_input(question):
-    """Demande à l'utilisateur d'entrer 'Y' or 'N', puis effectue une vérification sur la valeur entrée.
+    """Asks the user to enter 'Y' or 'N', then performs a check on the entered value.
 
     Parameters
     ----------
     question : string
-        La question à afficher à l'utilisateur.
+        The question to display to the user.
 
     Returns
     -------
     string
-        La réponse entrée par l'utilisateur.
+        The response entered by the user.
     """
     rep = input(question)
     while rep not in ['Y', 'N']:
-        print(f"{TColor.red}Erreur : vous devez entrer 'Y' or 'N'.{TColor.end}")
-        # On re-demande l'entrée à l'utilisateur :
+        print(f"{TColor.red}Error : you must enter 'Y' or 'N'.{TColor.end}")
+        # We ask the user again for input :
         rep = input(question)
 
     return rep
 
 
 def write_file(file_name, length_min, length_max, char_used, writing_mode):
-    """Écrit dans un fichier txt une liste de mots de passe.
+    """Writes a list of passwords to a txt file.
 
     Parameters
     ----------
     file_name : string
-        Le nom du fichier où seront écrits les mots de passe.
+        The name of the file where the passwords will be written.
     length_min : int
-        La longueur minimale des mots de passe (inclus).
+        The minimum length of passwords (included).
     length_max : int
-        La longueur maximale des mots de passe (inclus).
+        The maximum length of passwords (included).
     char_used : array
-        Contient l'ensemble des char utilisés.
+        The characters used.
     writing_mode : string
-        Le mode d'écriture sur le fichier (write or append).
+        The mode to use on the file (write or append).
 
-        Si le fichier n'existe pas, le crée.
+        If the file does not exist, create it.
     """
     try:
         with open(file_name, writing_mode) as file:
@@ -457,56 +451,55 @@ def write_file(file_name, length_min, length_max, char_used, writing_mode):
     except PermissionError:
         print("\nError : permission denied.\n"
               "Could not open file : ", file_name)
-        sys.exit(f"-> Abandon du mode {mode}\n")
+        sys.exit(f"-> Exiting {mode} mode ...\n")
     except OSError:
         print("\nCould not open file : ", file_name)
-        sys.exit(f"-> Abandon du mode {mode}\n")
+        sys.exit(f"-> Exiting {mode} mode ...\n")
 
 
 def generate_basic_passwd(file, length_min, length_max, char_set):
-    """Génère et écrit des mots de passe pour le mode basic.
+    """Generates and writes passwords for the basic mode.
 
     Parameters
     ----------
     file : TextIO
-        Le fichier où seront écrits les mots de passe.
+        The file where the passwords will be written.
     length_min : int
-        La longueur minimale des mots de passe (inclus).
+        The minimum length of passwords (included).
     length_max : int
-        La longueur maximale des mots de passe (inclus).
+        The maximum length of passwords (included).
     char_set : array
-        L'ensemble des caractères utilisés.
+        The characters used.
     """
-    # Boucle qui parcoure chaque longueur possible :
+    # Loop that goes through every possible length :
     for length in range(length_min, length_max + 1):
 
-        # file.write(f"mdp de longueur : {length}\n")
-        # L'indice du caractère dans char_set :
+        # The character index in char_set :
         indice_cs = 0
 
-        # On écrit le premier mot de passe pour cette longueur :
+        # We write the first password for this length:
         mdp = ""
         for j in range(length):
             mdp += char_set[indice_cs]
         file.write(f"{mdp}\n")
 
-        # Indice du caractère à modifier :
+        # Index of the character to modify:
         indice_to_modify = length - 1
 
-        # On crée tous les mots de passe pour une longueur donnée :
+        # We create all the passwords for a given length:
         for i in range((len(char_set) ** length) - 1):
 
-            while mdp[indice_to_modify] == char_set[len(char_set) - 1]:  # ancien : if indice_cs == (len(char_set) - 1):
+            while mdp[indice_to_modify] == char_set[len(char_set) - 1]:
                 indice_to_modify -= 1
 
             nouveau_mdp = ""
 
-            # On recopie le mdp précédent dans le nouveau mdp sauf pour 1 caractère qu'on modifie :
+            # We copy the previous password in the new password except for 1 character that we modify :
             for indice_courant in range(length):
                 if indice_courant == indice_to_modify:
                     indice_cs = char_set.index(mdp[indice_to_modify]) + 1
                     nouveau_mdp += char_set[indice_cs]
-                    # Si le mot de passe n'est pas terminé, on met tous les caractères suivants à cs[0] :
+                    # If the password is not complete, we set all the following characters to cs[0] :
                     if indice_courant < (length - 1):
                         for indice_restant in range(indice_courant + 1, length):
                             nouveau_mdp += char_set[0]
@@ -516,12 +509,12 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
                     nouveau_mdp += mdp[indice_courant]
 
             mdp = nouveau_mdp
-            # On écrit le nouveau mdp :
+            # We write the new password :
             file.write(f"{nouveau_mdp}\n")
 
 
 def main():
-    """Fonction principale."""
+    """Main function."""
     process_options()
 
 
