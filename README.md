@@ -75,9 +75,9 @@ Utile si par exemple on veut uniquement des mots de passe avec majuscules (AAA, 
 
 ## Fonctionnalités futures :
 
-- [ ] Disponible en plusieurs langues
-    - [ ] Anglais
-    - [ ] Français
+- [x] Disponible en plusieurs langues
+    - [x] Anglais
+    - [x] Français
 - [ ] Mode intelligent
 - [ ] Afficher une barre de progression lors de la génération
 
