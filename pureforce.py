@@ -401,12 +401,12 @@ def int_input(question):
         if v_int < 1:
             print(f"{TColor.red}Erreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
             # On re-demande l'entrée à l'utilisateur :
-            int_input(question)
+            v_int = int_input(question)
     except ValueError as error:
         # On affiche un message d'erreur :
         print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
         # On re-demande l'entrée à l'utilisateur :
-        int_input(question)
+        v_int = int_input(question)
 
     return v_int
 
