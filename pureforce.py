@@ -45,7 +45,7 @@ class TColor:
 
 
 # On définit les variables globales :
-mode = "mode inconnu"
+mode = "inconnu"
 
 welcome_text = ("\n=================== Bienvenue sur Pure-Force ! ===================\n"
                 "== Un générateur de mots de passe gratuit et simple à utiliser. ==\n"
@@ -57,15 +57,15 @@ usage_text = "Utilisation : pureforce [OPTION]\n"
 
 options_text = ("Options possibles :\n"
                 "-b (ou --basic)              lance le mode basic, qui génère une liste exhaustive de mots\n"
-                "                             de passe à partir des paramètres donnés par l'utilisateur."
+                "                             de passe à partir des paramètres donnés par l'utilisateur.\n"
                 "                             Utilise des questions interactives basiques afin de modifier\n"
-                "                             ces paramètres. Il s'agit du mode de génération le plus simple"
-                "                             mais il n'utilise aucune optimisation.\n"
+                "                             ces paramètres. Il s'agit du mode de génération le plus simple\n"
+                "                             mais il n'utilise aucune optimisation.\n\n"
                 "-i (ou --intelligentia)      lance le mode intelligent, qui génère une liste optimisée de\n"
                 "                             mots de passe. Il utilise plus de questions interactives afin\n"
-                "                             de sélectionner les mots de passe les plus pertinents."
-                f"                            {TColor.pink}(BIENTÔT DISPONIBLE){TColor.end}\n"
-                "-v (ou --version)            affiche la version actuelle du programme.\n"
+                "                             de sélectionner les mots de passe les plus pertinents.\n"
+                f"                             {TColor.pink}(BIENTÔT DISPONIBLE){TColor.end}\n\n"
+                "-v (ou --version)            affiche la version actuelle du programme.\n\n"
                 "-h (ou --help)               affiche les options disponibles (ce menu).\n")
 
 project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
@@ -403,12 +403,12 @@ def int_input(question):
         if v_int < 1:
             print(f"{TColor.red}Erreur : vous devez entrer un entier supérieur ou égal à 1.{TColor.end}")
             # On re-demande l'entrée à l'utilisateur :
-            int_input(question)
+            v_int = int_input(question)
     except ValueError as error:
         # On affiche un message d'erreur :
         print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
         # On re-demande l'entrée à l'utilisateur :
-        int_input(question)
+        v_int = int_input(question)
 
     return v_int
 
