@@ -482,7 +482,6 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
     # Boucle qui parcoure chaque longueur possible :
     for length in range(length_min, length_max + 1):
 
-        # file.write(f"mdp de longueur : {length}\n")
         # L'indice du caractère dans char_set :
         indice_cs = 0
 
@@ -498,7 +497,7 @@ def generate_basic_passwd(file, length_min, length_max, char_set):
         # On crée tous les mots de passe pour une longueur donnée :
         for i in range((len(char_set) ** length) - 1):
 
-            while mdp[indice_to_modify] == char_set[len(char_set) - 1]:  # ancien : if indice_cs == (len(char_set) - 1):
+            while mdp[indice_to_modify] == char_set[len(char_set) - 1]:
                 indice_to_modify -= 1
 
             nouveau_mdp = ""
