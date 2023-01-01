@@ -63,6 +63,7 @@ Options possibles :
 #### Démonstration du mode basic :
 
 ![pureforce-demo](examples/pure-force_demo.gif)
+*(La vidéo de démonstration a été réalisée sur la version anglaise mais les fonctionnalités restent les mêmes.)*
 
 Remarque :
 Il est possible de fusionner des listes de mots de passe. Pour cela, il suffit de lancer le mode basic et d'entrer le nom d'un fichier existant.
