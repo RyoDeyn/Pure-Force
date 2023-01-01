@@ -60,7 +60,7 @@ Possible options :
 ```
 #### Demonstration of the basic mode :
 
-![pureforce-demo](examples/VIDEO_NICKEL.gif)
+![pureforce-demo](examples/pure-force_demo.gif)
 
 Remark :
 It is possible to merge lists of passwords. To do this, simply launch the basic mode and enter the name of an existing file.
