@@ -74,9 +74,9 @@ but not both at the same time. Then you just need to generate them by using the 
 
 ## Roadmap :
 
-- [ ] Available in several languages
-    - [ ] English
-    - [ ] French
+- [x] Available in several languages
+    - [x] English
+    - [x] French
 - [ ] Intelligent mode
 - [ ] Show a progress bar while generating the passwords
 

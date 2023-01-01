@@ -58,11 +58,11 @@ options_text = ("Possible options :\n"
                 "-b (or --basic)              start the basic mode, that generate an exhaustive list of\n"
                 "                             passwords from a given range. Use basic interactive questions\n"
                 "                             to modulate the range. It is the simplest mode but doesn't use\n"
-                "                             any optimization.\n"
+                "                             any optimization.\n\n"
                 "-i (or --intelligentia)      start the intelligent mode, that generate an optimized list of\n"
                 "                             passwords. It will use more interactive questions to select the\n"
-                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n"
-                "-v (or --version)            display the current version of the program.\n"
+                f"                             most relevant passwords. {TColor.pink}(COMING SOON){TColor.end}\n\n"
+                "-v (or --version)            display the current version of the program.\n\n"
                 "-h (or --help)               display the possible options (this menu).\n")
 
 project_title = r""" ______   __  __     ______     ______        ______   ______     ______     ______     ______    
@@ -395,12 +395,12 @@ def int_input(question):
         if v_int < 1:
             print(f"{TColor.red}Error : you must enter an integer greater than or equal to 1.{TColor.end}")
             # We ask the user again for input:
-            int_input(question)
+            v_int = int_input(question)
     except ValueError as error:
         # We display an error message :
         print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
         # We ask the user again for input:
-        int_input(question)
+        v_int = int_input(question)
 
     return v_int
 
