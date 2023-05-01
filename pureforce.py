@@ -134,6 +134,8 @@ def process_options():
             elif option in ("-i", "--intelligentia"):
                 print(f"{TColor.pink}The pain is cooking ...\n"
                       f"(The intelligent mode is not available yet.){TColor.end}")
+                print("Beginning of beta intelligent mode ...")
+                intelligent_option()
 
 
 def help_option():
@@ -186,6 +188,101 @@ def basic_option():
     write_file(file_name, length_min, length_max, char_used, writing_mode)
 
     print(f"{TColor.green}Password generation completed successfully.{TColor.end}\n")
+
+
+def intelligent_option():
+    """Start the intelligent mode.
+    """
+    global mode
+    mode = "intelligent"
+
+    # We get the information needed for the generation :
+    # file_name, length_min, length_max, char_used, writing_mode = intelligent_message()
+
+
+def intelligent_message():
+    # """Displays a welcome message when entering basic mode and
+    # ask the user about information needed for the generation.
+    #
+    # Returns
+    # -------
+    # file_name : string
+    #     Name of the file to store the passwords.
+    # length_min : int
+    #     Minimum length of passwords (included).
+    # length_max : int
+    #     Maximum length of passwords (included).
+    # char_used : array
+    #     Contains all the characters used.
+    # writing_mode : string
+    #     The mode to use on the file (write or append).
+    # """
+    # print("--------------------------------------------------")
+    # print(project_title)
+    # print(f"{TColor.green}Entering basic mode ...{TColor.end}\n"
+    #       "\nThe list of passwords will be written to a txt file (default name: 'pforce-basic.txt')."
+    #       f"\nRequired questions are marked with an {TColor.red}(*){TColor.end}.\n")
+    #
+    # file_name = ask_file_name("File name: ")
+    # writing_mode = 'w'
+    #
+    # # If the file already exists :
+    # if os.path.isfile(f"{os.path.abspath(os.getcwd())}/{file_name}"):
+    #     print(f"{TColor.yellow}Warning : the file {file_name} already exists. Choose the option you want :"
+    #           f"\n- create a new file (by changing the name) (1)"
+    #           f"\n- override the existing file (2)"
+    #           f"\n- append the generated passwords to the existing file (3){TColor.end}")
+    #     file_option = input("--> ")
+    #     while file_option not in ['1', '2', '3']:
+    #         print(f"{TColor.red}Error : Available options : 1, 2 or 3.{TColor.end}")
+    #         file_option = input("--> ")
+    #
+    #     # Traitement selon l'option choisie :
+    #     if file_option == '1':
+    #         file_name = ask_file_name("Choose a new file name: ")
+    #     elif file_option == '2':
+    #         writing_mode = 'w'
+    #     elif file_option == '3':
+    #         writing_mode = 'a'
+    #     else:
+    #         sys.exit("Error : unknown option.\nExiting ...")
+    #
+    # length_min = int_input(f"Minimum length of passwords {TColor.red}(*){TColor.end}: ")
+    # length_max = int_input(f"Maximum length of passwords {TColor.red}(*){TColor.end}: ")
+    #
+    # while length_max < length_min:
+    #     print(f"{TColor.red}Error : the maximum length cannot be less than the minimum length.{TColor.end}")
+    #     length_max = int_input(f"Maximum length of passwords {TColor.red}(*){TColor.end}: ")
+    #
+    # min_set_used = yes_no_input(f"Do you want to use lowercase (a, b, c, ...) ? (Y/N) "
+    #                             f"{TColor.red}(*){TColor.end}: ")
+    # maj_set_used = yes_no_input(f"Do you want to use uppercase (A, B, C, ...) ? (Y/N) "
+    #                             f"{TColor.red}(*){TColor.end}: ")
+    # dig_set_used = yes_no_input(f"Do you want to use digits (0, 1, 2, ...) ? (Y/N) "
+    #                             f"{TColor.red}(*){TColor.end}: ")
+    # spe_set_used = yes_no_input(f"Do you want to use special characters (&, #, @, ...) ? (Y/N) "
+    #                             f"{TColor.red}(*){TColor.end}: ")
+    #
+    # # If no character set selected, we stop the execution of the script:
+    # stop_exec = True
+    # for resp in [min_set_used, maj_set_used, dig_set_used, spe_set_used]:
+    #     if resp == 'Y':
+    #         stop_exec = False
+    # if stop_exec:
+    #     sys.exit(f"\n{TColor.orange}You did not select any character set, exiting ...{TColor.end}\n")
+    #
+    # char_used = array.array('u')
+    #
+    # if min_set_used == 'Y':
+    #     char_used += minuscules_set
+    # if maj_set_used == 'Y':
+    #     char_used += majuscules_set
+    # if dig_set_used == 'Y':
+    #     char_used += digit_set
+    # if spe_set_used == 'Y':
+    #     char_used += special_char_set
+    #
+    # return file_name, length_min, length_max, char_used, writing_mode
 
 
 def print_set_char(char_set):
@@ -263,8 +360,8 @@ def check_pwd_number(l_min, l_max, nb_char):
 
 
 def basic_message():
-    """Displays a welcome message when entering basic mode.
-    Something cool and stylish.
+    """Displays a welcome message when entering basic mode and
+    ask the user about information needed for the generation.
 
     Returns
     -------
@@ -398,7 +495,7 @@ def int_input(question):
             v_int = int_input(question)
     except ValueError as error:
         # We display an error message :
-        print(f"{TColor.red}Erreur : vous devez entrer un entier.{TColor.end}")
+        print(f"{TColor.red}Error : you must enter an integer.{TColor.end}")
         # We ask the user again for input:
         v_int = int_input(question)
 
